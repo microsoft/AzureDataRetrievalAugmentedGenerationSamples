@@ -10,5 +10,5 @@ env.bak/
 venv.bak/
 vectorstore
 
-**/example.env
+!**/example.env
 **/*.env 
