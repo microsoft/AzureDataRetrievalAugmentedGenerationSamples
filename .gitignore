@@ -9,6 +9,6 @@ ENV/
 env.bak/
 venv.bak/
 vectorstore
-
-!**/example.env
+# Environment in subdirectories 
 **/*.env 
+!**/example.env
