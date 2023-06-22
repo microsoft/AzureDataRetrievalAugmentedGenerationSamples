@@ -4,7 +4,7 @@ This repo contains samples and links that would help you get started with retrie
 
 ## Resources and Coverage
 
-Table below provides a high level guidance. Please follow the links to relevant resources. 
+Table below provides a high level guidance. Please follow the links to the relevant resources.
 
 | Azure data product |Native vector indexing OR Azure Cognitive Search (ACS) | Guidance: repo, blog or docs| 
 |----------|----------|---------------------------------------------|
