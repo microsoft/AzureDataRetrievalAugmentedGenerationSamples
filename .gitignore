@@ -1,0 +1,14 @@
+__pypackages__/
+# Environments
+.env
+.venv
+venv2
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+vectorstore
+# Environment in subdirectories 
+**/*.env 
+!**/example.env
