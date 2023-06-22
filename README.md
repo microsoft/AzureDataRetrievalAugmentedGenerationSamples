@@ -1,7 +1,24 @@
-# Project
+# Samples for Retrieval-Augmented LLMs with Azure Data stack
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repo contains samples and links that would help you get started with retrieval augmentation generation (RAQ) on azure stack.
+
+## Resources and Coverage
+
+Table below provides a high level guidance. Please follow the links to relevant resources. 
+
+| Azure data product |Native vector indexing OR Azure Cognitive Search (ACS) | Guidance: repo, blog or docs| 
+|----------|----------|---------------------------------------------|
+|  CosmosDB - PostGres|      Native    | [Repo](https://github.com/aytekinar/msft-build)|
+|   CosmosDB - MongoDB  |    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCore)    |
+|   CosmosDB - NoSQL  |      Native    |   N/A                                          |
+|   AzureSQL  |   Native       |           N/A                                  |
+|   CosmosDB-PostGres  |    ACS    |                   Sample in this repo                          |
+|   CosmosDB-PostGres  |    ACS      |                   Sample in this repo                          |
+|   CosmosDB-PostGres  |    ACS      |    N/A                                         |
+|   AzureSQL  |      ACS    |                      Sample in this repo                       |          |
+|   Fabric OneLake  |   ACS       |            [Fabric Notebook](https://msit.powerbi.com/groups/d53590d4-b7f4-4168-816f-bd1a0a6417cd/synapsenotebooks/b37add4f-dbe7-44eb-8ed1-bfd7b2036ed9?experience=power-bi)                                 |
+
+## Maintainer
 
 As the maintainer of this project, please make a few updates:
 
