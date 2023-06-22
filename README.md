@@ -1,4 +1,4 @@
-# Samples for Retrieval-Augmented LLMs with Azure Data stack
+# Samples for Retrieval-Augmented LLMs with Azure Data
 
 This repo contains samples and links that would help you get started with retrieval augmentation generation (RAQ) on azure stack.
 
