@@ -1,3 +1,4 @@
 psycopg2
 python-dotenv
-openai 
+openai
+pandas
