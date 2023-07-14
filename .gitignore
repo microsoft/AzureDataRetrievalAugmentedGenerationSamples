@@ -12,3 +12,4 @@ vectorstore
 # Environment in subdirectories 
 **/*.env 
 !**/example.env
+**/venv/**
