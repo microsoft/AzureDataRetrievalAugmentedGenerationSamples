@@ -1,0 +1,41 @@
+{
+	"name": "Butter Chicken",
+	"description": "A flavorful Indian dish featuring tender chicken cooked in a creamy tomato-based sauce, infused with aromatic spices. Butter Chicken is often served with rice or naan bread, offering a delightful combination of savory flavors and creamy textures.",
+	"cuisine": "Indian",
+	"difficulty": "Intermediate",
+	"prepTime": "20 minutes",
+	"cookTime": "40 minutes",
+	"totalTime": "1 hour",
+	"servings": 4,
+	"ingredients": [
+		"1 lb boneless, skinless chicken thighs, cut into bite-sized pieces",
+		"1 cup plain yogurt",
+		"2 tablespoons lemon juice",
+		"2 teaspoons ground cumin",
+		"2 teaspoons ground coriander",
+		"1 teaspoon ground turmeric",
+		"1 teaspoon chili powder",
+		"1 teaspoon garam masala",
+		"1 teaspoon paprika",
+		"4 tablespoons unsalted butter",
+		"1 large onion, finely chopped",
+		"4 cloves garlic, minced",
+		"1 tablespoon grated fresh ginger",
+		"1 can (14 oz) tomato sauce",
+		"1 cup heavy cream",
+		"1/4 cup chopped fresh cilantro",
+		"Salt, to taste",
+		"Cooked basmati rice, for serving",
+		"Naan bread, for serving"
+	],
+	"instructions": [
+		"In a bowl, combine the chicken, yogurt, lemon juice, cumin, coriander, turmeric, chili powder, garam masala, and paprika. Mix well to coat the chicken evenly. Cover and marinate in the refrigerator for at least 1 hour, or overnight for best results.",
+		"In a large skillet or pan, melt the butter over medium heat. Add the chopped onion and cook until softened and golden brown, about 5-6 minutes.",
+		"Add the minced garlic and grated ginger to the pan. Sauté for another 1-2 minutes until fragrant.",
+		"Add the marinated chicken to the pan, along with any remaining marinade. Cook for 8-10 minutes, stirring occasionally, until the chicken is browned and cooked through.",
+		"Pour in the tomato sauce and stir to combine with the chicken. Reduce the heat to low, cover, and simmer for 15-20 minutes to allow the flavors to meld together.",
+		"Stir in the heavy cream and chopped cilantro. Season with salt to taste. Simmer for an additional 5 minutes.",
+		"Serve the butter chicken over cooked basmati rice, garnished with additional cilantro if desired. Serve with naan bread on the side.",
+		"Enjoy this delicious butter chicken with its creamy and flavorful sauce!"
+	]
+}

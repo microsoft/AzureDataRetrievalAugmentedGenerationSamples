@@ -22,4 +22,4 @@ CHANNEL. WHERE WILL YOU HELP PEOPLE?**.
 
 ## Microsoft Support Policy  
 
-Support for this **PROJECT or PRODUCT** is limited to the resources listed above.
+Support for these code example and tutorials for using Azure Cosmos DB products with Azure OpenaI is limited to the resources listed above.
