@@ -14,7 +14,7 @@ Table below provides a high level guidance. Please follow the links to the relev
 |   AzureSQL  |   Native       |           N/A                                  |
 |   CosmosDB-PostGres  |    ACS    |                   Sample in this repo                          |
 |   CosmosDB-MongoDB |    ACS      |                   Sample in this repo                          |
-|   CosmosDB-NoSQl  |    ACS      |    N/A                                         |
+|   CosmosDB-NoSQl  |    ACS      |                    Sample in this repo                          |
 |   AzureSQL  |      ACS    |                      Sample in this repo                       |          |
 |   Fabric OneLake  |   ACS       |            [Fabric Notebook](https://msit.powerbi.com/groups/d53590d4-b7f4-4168-816f-bd1a0a6417cd/synapsenotebooks/b37add4f-dbe7-44eb-8ed1-bfd7b2036ed9?experience=power-bi)                                 |
 
