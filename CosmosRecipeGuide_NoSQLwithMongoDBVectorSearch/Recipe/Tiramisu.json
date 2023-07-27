@@ -1,0 +1,36 @@
+{
+	"name": "Tiramisu",
+	"description": "A classic Italian dessert consisting of layers of coffee-soaked ladyfingers and creamy mascarpone cheese. Best enjoyed after a meal as a sweet treat, Tiramisu delights with its rich flavors and delicate texture.",
+	"cuisine": "Italian",
+	"difficulty": "Intermediate",
+	"prepTime": "30 minutes",
+	"cookTime": "0 minutes",
+	"totalTime": "6 hours",
+	"servings": 8,
+	"ingredients": [
+		"6 egg yolks",
+		"3/4 cup granulated sugar",
+		"2/3 cup milk",
+		"1 1/4 cups heavy cream",
+		"8 oz mascarpone cheese",
+		"1 teaspoon vanilla extract",
+		"1 cup strong brewed coffee, cooled",
+		"2 tablespoons unsweetened cocoa powder",
+		"24 ladyfingers"
+	],
+	"instructions": [
+		"In a heatproof bowl, whisk together the egg yolks and sugar until well combined and creamy.",
+		"Place the bowl over a pan of simmering water, making sure the bottom of the bowl doesn't touch the water. Cook, whisking constantly, until the mixture thickens and reaches about 160°F (70°C).",
+		"Remove the bowl from heat and whisk in the milk. Let it cool to room temperature.",
+		"In a separate bowl, beat the heavy cream until stiff peaks form.",
+		"Gently fold the mascarpone cheese and vanilla extract into the cooled egg yolk mixture until well combined.",
+		"Fold in half of the whipped cream into the mascarpone mixture until incorporated, then fold in the remaining whipped cream.",
+		"Dip each ladyfinger into the brewed coffee and arrange them in a single layer in the bottom of a 9x13-inch dish.",
+		"Spread half of the mascarpone mixture over the ladyfingers.",
+		"Dust the layer with cocoa powder using a fine-mesh sieve.",
+		"Repeat the layers with the remaining ladyfingers, mascarpone mixture, and cocoa powder.",
+		"Cover the dish with plastic wrap and refrigerate for at least 6 hours, or overnight, to allow the flavors to meld together and for the tiramisu to set.",
+		"Before serving, dust the top with additional cocoa powder.",
+		"Slice and serve chilled. Enjoy!"
+	]
+}

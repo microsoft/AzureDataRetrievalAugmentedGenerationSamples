@@ -1,6 +1,6 @@
 # Samples for Retrieval-Augmented LLMs with Azure Data
 
-This repo contains samples and links that would help you get started with retrieval augmentation generation (RAQ) on azure stack.
+This repo contains samples and links that would help you get started with retrieval augmentation generation (RAG) on Azure.
 
 ## Resources and Coverage
 
@@ -9,14 +9,21 @@ Table below provides a high level guidance. Please follow the links to the relev
 | Azure data product |Native vector indexing OR Azure Cognitive Search (ACS) | Guidance: repo, blog or docs| 
 |----------|----------|---------------------------------------------|
 |  CosmosDB - PostGres|      Native    | [Repo](https://github.com/aytekinar/msft-build)|
-|   CosmosDB - MongoDB  |    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCore)    |
+|   CosmosDB - MongoDB vCore|    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCore)    |
 |   CosmosDB - NoSQL  |      Native    |   N/A                                          |
 |   AzureSQL  |   Native       |           N/A                                  |
 |   CosmosDB-PostGres  |    ACS    |                   Sample in this repo                          |
-|   CosmosDB-MongoDB  |    ACS      |                   Sample in this repo                          |
-|   CosmosDB-NoSQl  |    ACS      |    N/A                                         |
+|   CosmosDB-MongoDB |    ACS      |                   Sample in this repo                          |
+|   CosmosDB-NoSQl  |    ACS      |                    Sample in this repo                          |
 |   AzureSQL  |      ACS    |                      Sample in this repo                       |          |
 |   Fabric OneLake  |   ACS       |            [Fabric Notebook](https://msit.powerbi.com/groups/d53590d4-b7f4-4168-816f-bd1a0a6417cd/synapsenotebooks/b37add4f-dbe7-44eb-8ed1-bfd7b2036ed9?experience=power-bi)                                 |
+
+
+## Responsible AI
+
+Microsoft is committed to the advancement of AI driven by ethical principles.
+    - Learn more about [responsible use of Azure OpenAI and LLMs here](https://learn.microsoft.com/legal/cognitive-services/openai/overview?context=/azure/ai-services/openai/context/context).
+    - Learn more about [responsible AI at Microsoft here](https://aka.ms/RAI).
 
 ## Maintainer
 
@@ -26,6 +33,7 @@ As the maintainer of this project, please make a few updates:
 - Updating SUPPORT.MD with content about this project's support experience
 - Understanding the security reporting process in SECURITY.MD
 - Remove this section from the README
+
 
 ## Contributing
 

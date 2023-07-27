@@ -1,0 +1,37 @@
+{
+	"name": "Cheesecake",
+	"description": "A rich and creamy dessert made with a sweet graham cracker crust and a velvety cream cheese filling. Cheesecake is a versatile dessert that can be enjoyed on any occasion, offering a luscious and indulgent experience.",
+	"cuisine": "American",
+	"difficulty": "Intermediate",
+	"prepTime": "20 minutes",
+	"cookTime": "1 hour",
+	"totalTime": "6 hours 20 minutes",
+	"servings": 12,
+	"ingredients": [
+		"2 cups graham cracker crumbs",
+		"1/2 cup unsalted butter, melted",
+		"32 oz cream cheese, softened",
+		"1 1/2 cups granulated sugar",
+		"4 large eggs",
+		"1 cup sour cream",
+		"1 teaspoon vanilla extract",
+		"1/4 cup all-purpose flour"
+	],
+	"instructions": [
+		"Preheat the oven to 325°F (165°C). Grease a 9-inch springform pan.",
+		"In a medium bowl, combine the graham cracker crumbs and melted butter. Mix well until the crumbs are evenly coated.",
+		"Press the crumb mixture into the bottom of the prepared springform pan, forming an even crust.",
+		"In a large mixing bowl, beat the cream cheese and sugar until smooth and creamy.",
+		"Add the eggs, one at a time, beating well after each addition. Scrape down the sides of the bowl as needed.",
+		"Add the sour cream and vanilla extract, and beat until well combined.",
+		"Gradually add the flour and mix until just incorporated. Be careful not to overmix.",
+		"Pour the cream cheese mixture over the crust in the springform pan.",
+		"Smooth the top with a spatula, ensuring it is evenly distributed.",
+		"Bake in the preheated oven for 1 hour, or until the edges are set and the center is slightly jiggly.",
+		"Turn off the oven and leave the cheesecake inside for 1 hour to cool slowly.",
+		"Remove the cheesecake from the oven and let it cool completely at room temperature.",
+		"Refrigerate the cheesecake for at least 4 hours, preferably overnight, to allow it to set and chill.",
+		"Before serving, run a knife around the edges of the pan to loosen the cheesecake. Carefully remove the springform pan sides.",
+		"Slice and serve chilled. Enjoy!"
+	]
+}

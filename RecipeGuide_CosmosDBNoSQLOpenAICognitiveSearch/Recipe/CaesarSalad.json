@@ -1,0 +1,34 @@
+{
+	"name": "Caesar Salad",
+	"description": "A refreshing salad made with crisp romaine lettuce, Parmesan cheese, croutons, and a tangy dressing. Caesar Salad is often enjoyed as a starter or side dish, offering a balance of textures and flavors with each bite.",
+	"cuisine": "International",
+	"difficulty": "Easy",
+	"prepTime": "15 minutes",
+	"cookTime": "0 minutes",
+	"totalTime": "15 minutes",
+	"servings": 4,
+	"ingredients": [
+		"2 hearts of romaine lettuce, chopped",
+		"1 cup croutons",
+		"1/2 cup grated Parmesan cheese",
+		"For the dressing:",
+		"1/2 cup mayonnaise",
+		"2 tablespoons lemon juice",
+		"1 tablespoon Dijon mustard",
+		"2 cloves garlic, minced",
+		"2 anchovy fillets, finely chopped (optional)",
+		"1/4 cup grated Parmesan cheese",
+		"1/4 teaspoon salt",
+		"1/4 teaspoon black pepper"
+	],
+	"instructions": [
+		"In a large salad bowl, combine the chopped romaine lettuce, croutons, and grated Parmesan cheese.",
+		"In a separate bowl, prepare the dressing by whisking together the mayonnaise, lemon juice, Dijon mustard, minced garlic, chopped anchovy fillets (if using), grated Parmesan cheese, salt, and black pepper. Mix until well combined.",
+		"Pour the dressing over the salad ingredients in the salad bowl.",
+		"Using salad tongs or two large spoons, toss the salad gently to evenly coat the lettuce with the dressing and distribute the ingredients.",
+		"Continue tossing until all the lettuce leaves are coated and the dressing is well incorporated.",
+		"Serve the Caesar Salad immediately as a refreshing and delicious appetizer or side dish.",
+		"You can optionally garnish the salad with additional grated Parmesan cheese and croutons for added texture and flavor.",
+		"Enjoy this classic Caesar Salad, packed with flavor and crispness!"
+	]
+}
