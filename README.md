@@ -9,7 +9,7 @@ Table below provides a high level guidance. Please follow the links to the relev
 | Azure data product |Native vector indexing OR Azure Cognitive Search (ACS) | Guidance: repo, blog or docs| 
 |----------|----------|---------------------------------------------|
 |  CosmosDB - PostGres|      Native    | [Repo](https://github.com/aytekinar/msft-build)|
-|   CosmosDB - MongoDB vCore|    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCore)    |
+|   CosmosDB - MongoDB vCore|    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCore), Sample in this repo  |
 |   CosmosDB - NoSQL  |      Native    |   N/A                                          |
 |   AzureSQL  |   Native       |           N/A                                  |
 |   CosmosDB-PostGres  |    ACS    |                   Sample in this repo                          |
