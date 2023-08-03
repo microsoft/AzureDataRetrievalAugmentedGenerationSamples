@@ -1,0 +1,37 @@
+{
+	"name": "Baklava",
+	"description": "A sweet pastry made of layers of flaky phyllo dough filled with chopped nuts and sweetened with syrup or honey. Baklava is a delightful dessert often enjoyed with a cup of tea or coffee, perfect for satisfying a sweet tooth.",
+	"cuisine": "Turkish/Middle Eastern",
+	"difficulty": "Intermediate",
+	"prepTime": "30 minutes",
+	"cookTime": "45 minutes",
+	"totalTime": "1 hour 15 minutes",
+	"servings": 20,
+	"ingredients": [
+		"1 lb phyllo dough",
+		"1 lb unsalted butter, melted",
+		"2 cups finely chopped walnuts",
+		"2 cups finely chopped pistachios",
+		"1 cup granulated sugar",
+		"1 tablespoon ground cinnamon",
+		"1/2 teaspoon ground cloves",
+		"1 cup water",
+		"1 cup honey",
+		"1 tablespoon lemon juice"
+	],
+	"instructions": [
+		"Preheat the oven to 350°F (175°C). Grease a 9x13-inch baking dish.",
+		"In a medium bowl, combine the chopped walnuts, pistachios, sugar, cinnamon, and ground cloves. Mix well and set aside.",
+		"Unroll the phyllo dough and place a damp cloth over it to prevent drying out.",
+		"Place one sheet of phyllo dough into the baking dish and brush it generously with melted butter. Repeat this step with 7 more sheets, brushing each layer with butter.",
+		"Sprinkle a generous amount of the nut mixture over the buttered phyllo layers.",
+		"Continue layering phyllo sheets and brushing with butter between each layer, alternating with layers of the nut mixture, until all the nut mixture is used. Reserve a few sheets of phyllo for the top layer.",
+		"Place the reserved sheets of phyllo on top, brushing each layer with butter.",
+		"Using a sharp knife, cut the baklava into diamond or square shapes.",
+		"Bake in the preheated oven for 45 minutes, or until the baklava turns golden brown and crispy.",
+		"While the baklava is baking, prepare the syrup by combining water, honey, and lemon juice in a saucepan. Bring it to a boil and then simmer for 10 minutes. Remove from heat and let it cool.",
+		"Once the baklava is cooked, remove it from the oven and immediately pour the cooled syrup over the hot baklava, ensuring it seeps into all the cuts.",
+		"Allow the baklava to cool completely in the dish before serving. This will allow it to soak up the syrup and develop its signature sticky texture.",
+		"Serve at room temperature and enjoy!"
+	]
+}
