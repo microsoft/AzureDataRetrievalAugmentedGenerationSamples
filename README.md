@@ -9,12 +9,12 @@ Table below provides a high level guidance. Please follow the links to the relev
 | Azure data product |Native vector indexing OR Azure Cognitive Search (ACS) | Guidance: repo, blog or docs| 
 |----------|----------|---------------------------------------------|
 |  CosmosDB - PostGres|      Native    | [Repo](https://github.com/aytekinar/msft-build)|
-|   CosmosDB - MongoDB vCore|    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCore), Sample in this repo  |
+|   CosmosDB - MongoDB vCore|    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCorev2), Sample in this repo  |
 |   CosmosDB - NoSQL  |      Native    |   N/A                                          |
 |   AzureSQL  |   Native       |           N/A                                  |
 |   CosmosDB-PostGres  |    ACS    |                   Sample in this repo                          |
 |   CosmosDB-MongoDB |    ACS      |                   Sample in this repo                          |
-|   CosmosDB-NoSQl  |    ACS      |                    Sample in this repo                          |
+|   CosmosDB-NoSQL  |    ACS      |                    Sample in this repo, [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/cognitive-search-vector-v2)                          |
 |   AzureSQL  |      ACS    |                      Sample in this repo                       |          |
 |   Fabric OneLake  |   ACS       |            [Fabric Notebook](https://msit.powerbi.com/groups/d53590d4-b7f4-4168-816f-bd1a0a6417cd/synapsenotebooks/b37add4f-dbe7-44eb-8ed1-bfd7b2036ed9?experience=power-bi)                                 |
 
