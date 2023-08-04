@@ -1,6 +1,15 @@
 # Samples for Retrieval-Augmented LLMs with Azure Data
 
-This repo contains samples and links that would help you get started with retrieval augmentation generation (RAG) on Azure.
+This repo contains code samples and links to help you get started with retrieval augmentation generation (RAG) on Azure. 
+The samples follow a RAG pattern that include the following steps:
+
+1. Add sample data to an Azure database product
+2. Create embeddings from the sample data using an Azure OpenAI Embeddings model
+3. Link the Azure database product to Azure Cognitive Search (for databases without native vector indexing)
+4. Create a vector index on the embeddings
+5. Perform vector similarity search
+6. Perform question answering over the sample data using an Azure OpenAI Completions model
+   
 
 ## Resources and Coverage
 
@@ -8,14 +17,13 @@ Table below provides a high level guidance. Please follow the links to the relev
 
 | Azure data product |Native vector indexing OR Azure Cognitive Search (ACS) | Guidance: repo, blog or docs| 
 |----------|----------|---------------------------------------------|
-|  CosmosDB - PostGres|      Native    | [Repo](https://github.com/aytekinar/msft-build)|
-|   CosmosDB - MongoDB vCore|    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCorev2), Sample in this repo  |
-|   CosmosDB - NoSQL  |      Native    |   N/A                                          |
-|   AzureSQL  |   Native       |           N/A                                  |
-|   CosmosDB-PostGres  |    ACS    |                   Sample in this repo                          |
-|   CosmosDB-MongoDB |    ACS      |                   Sample in this repo                          |
-|   CosmosDB-NoSQL  |    ACS      |                    Sample in this repo, [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/cognitive-search-vector-v2)                          |
-|   AzureSQL  |      ACS    |                      Sample in this repo                       |          |
+|   Azure Database for PostgreSQL |      Native    | Sample in this repo (Python)|
+|   CosmosDB - MongoDB vCore |    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCorev2), Sample in this repo (C#)  |
+|   Azure Cache for Redis |      Native    | Sample in this repo (Python)|
+|   CosmosDB-PostGres  |    ACS    |                   Sample in this repo (C#, Python)                         |
+|   CosmosDB-MongoDB |    ACS      |                   Sample in this repo (C#, Python)                          |
+|   CosmosDB-NoSQL  |    ACS      |                    Sample in this repo (C#, Python), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/cognitive-search-vector-v2)                          |
+|   AzureSQL  |      ACS    |                      Sample in this repo (Python)                      |          |
 |   Fabric OneLake  |   ACS       |            [Fabric Notebook](https://msit.powerbi.com/groups/d53590d4-b7f4-4168-816f-bd1a0a6417cd/synapsenotebooks/b37add4f-dbe7-44eb-8ed1-bfd7b2036ed9?experience=power-bi)                                 |
 
 
