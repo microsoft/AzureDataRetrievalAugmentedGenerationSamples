@@ -13,3 +13,5 @@ vectorstore
 **/*.env 
 !**/example.env
 **/venv/**
+.ipynb_checkpoints
+.DS_Store
