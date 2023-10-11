@@ -18,11 +18,11 @@ Table below provides a high level guidance. Please follow the links to the relev
 | Azure data product |Native vector indexing OR Azure Cognitive Search (ACS) | Guidance: repo, blog or docs| 
 |----------|----------|---------------------------------------------|
 |   Azure Database for PostgreSQL |      Native    | Sample in this repo (Python)|
-|   CosmosDB - MongoDB vCore |    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/MongovCorev2), Sample in this repo (C#, Python) |
+|   CosmosDB - MongoDB vCore |    Native      | [Docs](https://learn.microsoft.com/en-us/azure/cosmos-db/mongodb/vcore/vector-search/), [Blog](https://devblogs.microsoft.com/cosmosdb/introducing-vector-search-in-azure-cosmos-db-for-mongodb-vcore/), [Repo](https://github.com/Azure/Vector-Search-AI-Assistant/tree/mongovcorev2), Sample in this repo (C#, Python) |
 |   Azure Cache for Redis |      Native    | Sample in this repo (Python)|
 |   CosmosDB - PostgreSQL  |    ACS    |                   Sample in this repo (Python)                         |
 |   CosmosDB - MongoDB |    ACS      |                   Sample in this repo (C#, Python)                          |
-|   CosmosDB - NoSQL  |    ACS      |                    Sample in this repo (C#, Python), [Repo](https://github.com/AzureCosmosDB/VectorSearchAiAssistant/tree/cognitive-search-vector-v2)                          |
+|   CosmosDB - NoSQL  |    ACS      |                    Sample in this repo (C#, Python), [Repo](https://github.com/Azure/Vector-Search-AI-Assistant/tree/cognitive-search-vector)                          |
 |   AzureSQL  |      ACS    |                      Sample in this repo (Python)                      |          |
 |   Fabric OneLake  |   ACS       |            [Fabric Notebook](https://msit.powerbi.com/groups/d53590d4-b7f4-4168-816f-bd1a0a6417cd/synapsenotebooks/b37add4f-dbe7-44eb-8ed1-bfd7b2036ed9?experience=power-bi)                                 |
 
