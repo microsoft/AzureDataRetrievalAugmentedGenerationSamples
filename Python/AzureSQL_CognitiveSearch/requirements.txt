@@ -5,4 +5,4 @@ openai==0.28.1
 jupyter==1.0.0
 requests==2.31.0
 azure-core==1.29.2
-azure-search-documents==11.4.0b12
+azure-search-documents
