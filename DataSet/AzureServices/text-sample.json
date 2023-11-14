@@ -34,6 +34,7 @@
         "title": "Azure Cosmos DB",
         "content": "Azure Cosmos DB is a fully managed, globally distributed, multi-model database service designed for building highly responsive and scalable applications. It offers turnkey global distribution, automatic and instant scalability, and guarantees low latency, high availability, and consistency. Cosmos DB supports popular NoSQL APIs, including MongoDB, Cassandra, Gremlin, and Azure Table Storage. You can build globally distributed applications with ease, without having to deal with complex configuration and capacity planning. Data stored in Cosmos DB is automatically indexed, enabling you to query your data with SQL, JavaScript, or other supported query languages.",
         "category": "Databases"
+        
     },
     {
         "id": "7",
@@ -411,12 +412,6 @@
         "id": "69",
         "title": "Azure SQL Managed Instance",
         "content": "Azure SQL Managed Instance is a fully managed, scalable, and secure SQL Server instance hosted in Azure. It provides features like automatic backups, monitoring, and high availability. SQL Managed Instance supports various data types, such as JSON, spatial, and full-text. You can use Azure SQL Managed Instance to migrate your existing applications, build new applications, and ensure the performance and security of your data. It also integrates with other Azure services, such as Azure App Service and Azure Data Factory.",
-        "category": "Databases"
-    },
-    {
-        "id": "70",
-        "title": "Azure Cosmos DB",
-        "content": "Azure Cosmos DB is a globally distributed, multi-model database service that enables you to build and manage NoSQL applications in Azure. It provides features like automatic scaling, low-latency access, and multi-master replication. Cosmos DB supports various data models, such as key-value, document, graph, and column-family. You can use Azure Cosmos DB to build globally distributed applications, ensure high availability and performance, and manage your data at scale. It also integrates with other Azure services, such as Azure Functions and Azure App Service.",
         "category": "Databases"
     },
     {
