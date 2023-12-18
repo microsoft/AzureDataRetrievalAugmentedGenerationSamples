@@ -8,34 +8,46 @@ using Azure.AI.OpenAI;
 using Azure.Core;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.AI.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.Memory.AzureCognitiveSearch;
-using Microsoft.SemanticKernel.Memory;
 using Microsoft.SemanticKernel.TemplateEngine;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Extensions.Logging;
+using System.Runtime;
+using Newtonsoft.Json;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Memory;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
+using Microsoft.SemanticKernel.Connectors.Memory.AzureAISearch;
+
 
 namespace CosmosRecipeGuide.Services
 {
     public class SemanticKernelService
     {
-        IKernel kernel;
+        //following lines supress errors tagged as "Feature is for evaluation purposes only and is subject to change or removal in future updates."
+#pragma warning disable SKEXP0021 // Disable the warning for the next line
+#pragma warning disable SKEXP0011 // Disable the warning for the next line
+#pragma warning disable SKEXP0003 // Disable the warning for the next line
+#pragma warning disable SKEXP0052 // Disable the warning for the next line
+
+        readonly Kernel kernel;
         private const string MemoryCollectionName = "SKRecipe";
+
+        ISemanticTextMemory memoryWithACS;
+        IChatCompletionService chatCompletionService;
 
         public SemanticKernelService(string OpenAIEndpoint, string OpenAIKey, string EmbeddingsDeployment, string CompletionDeployment, string ACSEndpoint, string ACSApiKey)
         {
-            // IMPORTANT: Register an embedding generation service and a memory store using  Azure Cognitive Service. 
-            kernel = new KernelBuilder()
-                .WithAzureChatCompletionService(
-                    CompletionDeployment,
-                    OpenAIEndpoint,
-                    OpenAIKey)
-                .WithAzureTextEmbeddingGenerationService(
-                    EmbeddingsDeployment,
-                    OpenAIEndpoint,
-                    OpenAIKey)
-                .WithMemoryStorage(new AzureCognitiveSearchMemoryStore(ACSEndpoint, ACSApiKey))
+
+            memoryWithACS = new MemoryBuilder()
+                .WithAzureOpenAITextEmbeddingGeneration(EmbeddingsDeployment,OpenAIEndpoint, OpenAIKey, "")
+                .WithMemoryStore(new AzureAISearchMemoryStore(ACSEndpoint, ACSApiKey))
                 .Build();
+
+            chatCompletionService = new AzureOpenAIChatCompletionService(
+                CompletionDeployment,                
+                OpenAIEndpoint,
+                OpenAIKey);        
         }
 
 
@@ -43,12 +55,12 @@ namespace CosmosRecipeGuide.Services
         {
             try
             {
-                await kernel.Memory.SaveReferenceAsync(
-                   collection: MemoryCollectionName,
-                   externalSourceName: "Recipe",
-                   externalId: id,
-                   description: data,
-                   text: data);
+                await memoryWithACS.SaveReferenceAsync(
+                    collection: MemoryCollectionName,
+                    externalSourceName: "Recipe",
+                    externalId: id,
+                    description:data,
+                    text: data);
 
             }
             catch (Exception ex)
@@ -59,11 +71,11 @@ namespace CosmosRecipeGuide.Services
 
         public async Task<List<string>> SearchEmbeddingsAsync(string query)
         {
-            var memories = kernel.Memory.SearchAsync(MemoryCollectionName, query, limit: 2, minRelevanceScore: 0.5);
+
+            var memoryResults = memoryWithACS.SearchAsync(MemoryCollectionName, query, limit: 3, minRelevanceScore: 0.5);
 
             List<string> result = new List<string>();   
-            int i = 0;
-            await foreach (MemoryQueryResult memory in memories)
+            await foreach (var memory in memoryResults)
             {
                 result.Add(memory.Metadata.Id);
             }
@@ -86,10 +98,8 @@ namespace CosmosRecipeGuide.Services
             - Format the content so that it can be printed to the Command Line 
             - In case there are more than one recipes you find let the user pick the most appropiate recipe.";
 
-            // Client used to request answers to gpt-3.5 - turbo
-            var chatCompletion = kernel.GetService<IChatCompletion>();
 
-            var chatHistory = chatCompletion.CreateNewChat(systemPromptRecipeAssistant);
+            var chatHistory = new ChatHistory(systemPromptRecipeAssistant);
 
             // add shortlisted recipes as system message
             chatHistory.AddSystemMessage(recipeData);
@@ -98,10 +108,10 @@ namespace CosmosRecipeGuide.Services
             chatHistory.AddUserMessage(userPrompt);
 
             // Finally, get the response from AI
-            string answer = await chatCompletion.GenerateMessageAsync(chatHistory);
+            var completionResults = await chatCompletionService.GetChatMessageContentsAsync(chatHistory);
+            string answer = completionResults[0].Content;
 
-
-            return answer;
+            return answer!;
         }
     }
 }
