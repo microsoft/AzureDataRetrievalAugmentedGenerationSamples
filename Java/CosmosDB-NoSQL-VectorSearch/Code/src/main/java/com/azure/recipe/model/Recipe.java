@@ -8,7 +8,6 @@ import java.util.List;
 public class Recipe {
     public String id;
     public String name;
-    public String score;
     public String description;
     public List<Double> embedding;
     public String cuisine;

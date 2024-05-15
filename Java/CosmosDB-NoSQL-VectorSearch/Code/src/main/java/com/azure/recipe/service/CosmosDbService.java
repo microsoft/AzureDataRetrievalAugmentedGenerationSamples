@@ -88,32 +88,8 @@ public class CosmosDbService {
     public Iterable<Recipe> vectorSearch(List<Double> vector){
         ArrayList<SqlParameter> paramList = new ArrayList<SqlParameter>();
         paramList.add(new SqlParameter("@embedding", vector.stream().map(aDouble -> (Float) (float) aDouble.doubleValue()).collect(Collectors.toList()).toArray()));
-        SqlQuerySpec querySpec = new SqlQuerySpec("SELECT c.name, c.description, c.embedding, c.cuisine, c.difficulty, c.prepTime, c.cookTime, c.totalTime, c.servings, c.ingredients, c.instructions,  VectorDistance(c.embedding,@embedding) AS score   FROM c", paramList);
-        Iterable<Recipe> filteredRecipes = container.queryItems(querySpec, new CosmosQueryRequestOptions(), Recipe.class).toIterable();
-        filteredRecipes = sortResults(filteredRecipes);
+        SqlQuerySpec querySpec = new SqlQuerySpec("SELECT TOP 3 c.name, c.description, c.embedding, c.cuisine, c.difficulty, c.prepTime, c.cookTime, c.totalTime, c.servings, c.ingredients, c.instructions,  VectorDistance(c.embedding,@embedding) AS SimilarityScore   FROM c ORDER BY VectorDistance(c.embedding,@embedding)", paramList);
+        ArrayList<Recipe> filteredRecipes = (ArrayList<Recipe>) container.queryItems(querySpec, new CosmosQueryRequestOptions(), Recipe.class).collectList().block();
         return filteredRecipes;
-    }
-
-    public Iterable<Recipe> sortResults (Iterable<Recipe> recipes){
-        ArrayList <Recipe> filteredRecipesList = new ArrayList<Recipe>();
-        for (Recipe recipe : recipes) {
-            filteredRecipesList.add(recipe);
-        }
-        //order filteredRecipesList by similarity score descending
-        Collections.sort(filteredRecipesList, new Comparator<Recipe>() {
-            @Override
-            public int compare(Recipe o1, Recipe o2) {
-                return Double.compare(Double.parseDouble(o1.getScore()), Double.parseDouble(o2.getScore()));
-            }
-        });
-
-        //reverse the list to get the highest similarity score first
-        Collections.reverse(filteredRecipesList);
-
-        //get top 3 recipes
-        filteredRecipesList = new ArrayList<Recipe>(filteredRecipesList.subList(0, 3));
-
-        //convert filteredRecipesList to Iterable
-        return filteredRecipesList;
     }
 }

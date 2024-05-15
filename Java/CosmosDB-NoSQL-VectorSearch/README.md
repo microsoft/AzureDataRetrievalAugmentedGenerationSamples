@@ -13,7 +13,7 @@ This repository provides a demo showcasing the usage of the RAG pattern for inte
 
 ### Installation
 ``` bash 
-mvn compile exec:java
+mvn install
 ```
 
 ### Run
@@ -64,7 +64,7 @@ To begin, follow these steps:
     cosmosVectorEmbeddingPolicy.setCosmosVectorEmbeddings(Arrays.asList(embedding));
     collectionDefinition.setVectorEmbeddingPolicy(cosmosVectorEmbeddingPolicy);
 
-        //set vector indexing policy
+    //set vector indexing policy
     IndexingPolicy indexingPolicy = new IndexingPolicy();
     indexingPolicy.setIndexingMode(IndexingMode.CONSISTENT);
     ExcludedPath excludedPath = new ExcludedPath("/*");

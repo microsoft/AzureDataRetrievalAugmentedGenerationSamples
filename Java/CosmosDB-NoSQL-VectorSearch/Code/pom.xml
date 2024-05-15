@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.azure.cosmos</groupId>
-    <artifactId>your-artifact-id</artifactId>
+    <artifactId>cosmos-db-vector-search-sample</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -14,29 +14,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
-    <repositories>
-<!--        <repository>
-            <id>azure-sdk-for-java</id>
-            <url>https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-java/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>-->
-        <repository>
-            <id>azure-sdk-for-java</id>
-            <url>https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-java/maven/v1</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -46,18 +23,8 @@
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
-            <artifactId>azure-search-documents</artifactId>
-            <version>11.6.0-beta.7</version>
-        </dependency>
-<!--        <dependency>
-            <groupId>com.azure</groupId>
             <artifactId>azure-cosmos</artifactId>
-            <version>4.60.0-alpha.20240507.2</version>
-        </dependency>-->
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-cosmos</artifactId>
-            <version>4.60.0-alpha.20240502.1</version>
+            <version>LATEST</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
