@@ -91,7 +91,6 @@ public class OpenAIService {
         ChatMessage userMessage = new ChatMessage(ChatRole.USER);
         userMessage.setContent(userPrompt);
 
-
         ChatCompletionsOptions options = new ChatCompletionsOptions(List.of(userMessage, systemMessage));
         options.setMaxTokens(openAIMaxTokens);
         options.setTemperature(0.5);
