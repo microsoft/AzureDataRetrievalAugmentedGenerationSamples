@@ -4,7 +4,7 @@ This sample provides a demo showcasing the usage of the RAG pattern for integrat
 
 ### Prerequisites
 
-- Azure Cosmos DB Monogo Account
+- Azure Cosmos DB Mongo Account
     - Connection string
 - Azure Open AI Service
     - Deploy text-davinci-003 model for Embeding
@@ -35,5 +35,5 @@ mvn exec:java
 ```
 
 ## Getting Started
-When you run the application for the first time, it will read and vectorize docs in the `PDF_docs` folder, and insert them into Cosmos DB MongoDB vCore vector store. To begin, just ask a question in command line. 
+When you run the application for the first time, it will read and vectorize docs in the `PDF_docs` folder (you can add your own pdf or txt docs here), and insert them into Cosmos DB MongoDB vCore vector store. To begin, just ask a question in command line. 
 

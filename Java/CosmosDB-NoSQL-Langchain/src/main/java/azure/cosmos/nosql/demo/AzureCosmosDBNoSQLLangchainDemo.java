@@ -39,7 +39,6 @@ import dev.langchain4j.service.V;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.azure.cosmos.nosql.AzureCosmosDbNoSqlEmbeddingStore;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,6 +58,7 @@ public class AzureCosmosDBNoSQLLangchainDemo {
     private final static String COSMOSDB_DATABASE = "langchain_java-db";
     private final static String COSMOSDB_COLLECTION = "langchain_java-coll";
 
+    // injecting a prompt - change this according to your use case
     private final static String prompt = "Only use the context information to answer the question" +
             "even if the answer appears incorrect! {{message}}";
 
@@ -66,7 +66,6 @@ public class AzureCosmosDBNoSQLLangchainDemo {
             .endpoint(COSMOSDB_ENDPOINT)
             .key(COSMOSDB_KEY)
             .buildClient();
-
 
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -97,8 +96,10 @@ public class AzureCosmosDBNoSQLLangchainDemo {
     }
 
     private static ChatBotAgent createChatBotAgent() throws FileNotFoundException {
-        // First, let's create a chat model, also known as a LLM, which will answer our queries.
-        // In this example, we will use Azure OpenAI's gpt-3.5-turbo, but you can choose any supported model.
+        // First, let's create a chat model, also known as a LLM, which will answer our
+        // queries.
+        // In this example, we will use Azure OpenAI's gpt-3.5-turbo, but you can choose
+        // any supported model.
         // Langchain4j currently supports more than 10 popular LLM providers.
 
         ChatLanguageModel model = AzureOpenAiChatModel.builder()
@@ -109,12 +110,15 @@ public class AzureCosmosDBNoSQLLangchainDemo {
                 .temperature(0.3)
                 .logRequestsAndResponses(true)
                 .build();
-        model.generate("Given the context information and not prior knowledge, answer the question. If you can't answer the question, use the most relevant contextual information as the answer, and do not add more information: %s");
+        model.generate(
+                "Given the context information and not prior knowledge, answer the question. If you can't answer the question, use the most relevant contextual information as the answer, and do not add more information: %s");
         System.out.println("Azure Open AI Chat Model initialized");
         // Now, let's load a document that we want to use for RAG.
-        // We are using abstracts of papers submitted to Computer Vision and Pattern Recognition Conference
+        // We are using abstracts of papers submitted to Computer Vision and Pattern
+        // Recognition Conference
         // in 2019 (CVPR19). We are importing multiple pdf documents.
-        // LangChain4j offers built-in support for loading documents from various sources:
+        // LangChain4j offers built-in support for loading documents from various
+        // sources:
         // File System, URL, Amazon S3, Azure Blob Storage, GitHub, Tencent COS.
         // Additionally, LangChain4j supports parsing multiple document types:
         // text, pdf, doc, xls, ppt.
@@ -122,12 +126,16 @@ public class AzureCosmosDBNoSQLLangchainDemo {
         List<Document> documents = loadDocuments();
         System.out.println("Documents are loaded");
 
-
-        // Now, we need to split this document into smaller segments, also known as "chunks."
-        // This approach allows us to send only relevant segments to the LLM in response to a user query,
-        // rather than the entire document. A good starting point is to use a recursive document splitter
-        // that initially attempts to split by paragraphs. If a paragraph is too large to fit into a single segment,
-        // the splitter will recursively divide it by newlines, then by sentences, and finally by words,
+        // Now, we need to split this document into smaller segments, also known as
+        // "chunks."
+        // This approach allows us to send only relevant segments to the LLM in response
+        // to a user query,
+        // rather than the entire document. A good starting point is to use a recursive
+        // document splitter
+        // that initially attempts to split by paragraphs. If a paragraph is too large
+        // to fit into a single segment,
+        // the splitter will recursively divide it by newlines, then by sentences, and
+        // finally by words,
         // if necessary, to ensure each piece of text fits into a single segment.
         DocumentSplitter splitter = DocumentSplitters.recursive(300, 0);
         List<TextSegment> segments = splitter.splitAll(documents);
@@ -135,8 +143,10 @@ public class AzureCosmosDBNoSQLLangchainDemo {
 
         // Now, we need to embed (also known as "vectorize") these segments.
         // Embedding is needed for performing similarity searches.
-        // For this example, we'll use Azure Open AI text embedding model ada-002, but you can choose any supported model.
-        // Langchain4j currently supports more than 10 popular embedding model providers.
+        // For this example, we'll use Azure Open AI text embedding model ada-002, but
+        // you can choose any supported model.
+        // Langchain4j currently supports more than 10 popular embedding model
+        // providers.
         EmbeddingModel embeddingModel = AzureOpenAiEmbeddingModel.builder()
                 .endpoint(AZURE_OPENAI_ENDPOINT)
                 .apiKey(AZURE_OPENAI_KEY)
@@ -150,7 +160,9 @@ public class AzureCosmosDBNoSQLLangchainDemo {
 
         CosmosContainerProperties collectionDefinition = new CosmosContainerProperties(COSMOSDB_COLLECTION, "/id");
 
-        //set vector embedding policy
+        // For NoSQL API, we need to set the indexing policy and vector embedding policy
+
+        // set vector embedding policy
         CosmosVectorEmbeddingPolicy cosmosVectorEmbeddingPolicy = new CosmosVectorEmbeddingPolicy();
         CosmosVectorEmbedding embedding = new CosmosVectorEmbedding();
         embedding.setPath("/embedding");
@@ -160,7 +172,7 @@ public class AzureCosmosDBNoSQLLangchainDemo {
         cosmosVectorEmbeddingPolicy.setCosmosVectorEmbeddings(Arrays.asList(embedding));
         collectionDefinition.setVectorEmbeddingPolicy(cosmosVectorEmbeddingPolicy);
 
-        //set vector indexing policy
+        // set vector indexing policy
         IndexingPolicy indexingPolicy = new IndexingPolicy();
         indexingPolicy.setIndexingMode(IndexingMode.CONSISTENT);
         ExcludedPath excludedPath = new ExcludedPath("/*");
@@ -174,9 +186,11 @@ public class AzureCosmosDBNoSQLLangchainDemo {
         indexingPolicy.setVectorIndexes(Arrays.asList(cosmosVectorIndexSpec));
         collectionDefinition.setIndexingPolicy(indexingPolicy);
 
-        // Next, we will store these embeddings in an embedding store (also known as a "vector database").
-        // This store will be used to search for relevant segments during each interaction with the LLM.
-        // We are using the Azure Cosmos DB Mongo vCOre embedding store.
+        // Next, we will store these embeddings in an embedding store (also known as a
+        // "vector database").
+        // This store will be used to search for relevant segments during each
+        // interaction with the LLM.
+        // We are using the Azure Cosmos DB NoSQL API embedding store.
         EmbeddingStore<TextSegment> embeddingStore = AzureCosmosDbNoSqlEmbeddingStore.builder()
                 .cosmosClient(cosmosClient)
                 .databaseName(COSMOSDB_DATABASE)
@@ -190,8 +204,10 @@ public class AzureCosmosDBNoSQLLangchainDemo {
         embeddingStore.addAll(embeddings, segments);
         System.out.println("Vector embeddings and the chunked documents added to the embedding store");
 
-        // The content retriever is responsible for retrieving relevant content based on a user query.
-        // Currently, it is capable of retrieving text segments, but future enhancements will include support for
+        // The content retriever is responsible for retrieving relevant content based on
+        // a user query.
+        // Currently, it is capable of retrieving text segments, but future enhancements
+        // will include support for
         // additional modalities like images, audio, and more.
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
@@ -201,7 +217,8 @@ public class AzureCosmosDBNoSQLLangchainDemo {
                 .build();
         System.out.println("Embedding store is initialized as a retriever");
 
-        // Optionally, we can use a chat memory, enabling back-and-forth conversation with the LLM
+        // Optionally, we can use a chat memory, enabling back-and-forth conversation
+        // with the LLM
         // and allowing it to remember previous interactions.
         // Currently, LangChain4j offers two chat memory implementations:
         // MessageWindowChatMemory and TokenWindowChatMemory.
@@ -210,18 +227,22 @@ public class AzureCosmosDBNoSQLLangchainDemo {
 
         // The final step is to build our AI Service,
         // configuring it to use the components we've created above.
-        System.out.println("Creating an AI service with our chat model, embedding store as a retriever, and chat memory.");
-        //model.generate("Given the context information and not prior knowledge, answer the question. If you can't answer the question, use the most relevant contextual information as the answer, and do not add more information: %s");
+        System.out.println(
+                "Creating an AI service with our chat model, embedding store as a retriever, and chat memory.");
+        // model.generate("Given the context information and not prior knowledge, answer
+        // the question. If you can't answer the question, use the most relevant
+        // contextual information as the answer, and do not add more information: %s");
         return AiServices.builder(ChatBotAgent.class)
                 .chatLanguageModel(model)
                 .contentRetriever(contentRetriever)
                 .chatMemory(chatMemory)
                 .build();
     }
+
     private static List<Document> loadDocuments() throws FileNotFoundException {
-        //get current working folder
+        // get current working folder
         String workingDirectory = System.getProperty("user.dir");
-        String documentsPath = workingDirectory +  "/src/main/java/azure/cosmos/nosql/demo/PDF_docs";
+        String documentsPath = workingDirectory + "/src/main/java/azure/cosmos/nosql/demo/PDF_docs";
 
         File folder = new File(documentsPath);
         List<Document> documentList = new ArrayList<>();
@@ -286,14 +307,19 @@ public class AzureCosmosDBNoSQLLangchainDemo {
 
     /**
      * This is an "AI Service". It is a Java service with AI capabilities/features.
-     * It can be integrated into your code like any other service, acting as a bean, and is even mockable.
-     * The goal is to seamlessly integrate AI functionality into your (existing) codebase with minimal friction.
+     * It can be integrated into your code like any other service, acting as a bean,
+     * and is even mockable.
+     * The goal is to seamlessly integrate AI functionality into your (existing)
+     * codebase with minimal friction.
      * It's conceptually similar to Spring Data JPA or Retrofit.
      * You define an interface and optionally customize it with annotations.
-     * LangChain4j then provides an implementation for this interface using proxy and reflection.
+     * LangChain4j then provides an implementation for this interface using proxy
+     * and reflection.
      * This approach abstracts away all the complexity and boilerplate.
-     * So you won't need to juggle the model, messages, memory, RAG components, tools, output parsers, etc.
-     * However, don't worry. It's quite flexible and configurable, so you'll be able to tailor it
+     * So you won't need to juggle the model, messages, memory, RAG components,
+     * tools, output parsers, etc.
+     * However, don't worry. It's quite flexible and configurable, so you'll be able
+     * to tailor it
      * to your specific use case.
      */
     interface ChatBotAgent {

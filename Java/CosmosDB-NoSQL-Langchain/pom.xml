@@ -9,10 +9,10 @@
         <version>0.29.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>langchain4j-azure-cosmos-vcore</artifactId>
+    <artifactId>langchain4j-azure-cosmos-nosql-sample</artifactId>
     <packaging>jar</packaging>
 
-    <name>LangChain4j :: Integration :: Azure CosmosDB MongoDB vCore</name>
+    <name>LangChain4j :: Integration :: Azure CosmosDB NoSQL API</name>
 
     <dependencies>
         <dependency>
@@ -29,11 +29,6 @@
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-core</artifactId>
             <version>0.30.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.11.1</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -102,7 +97,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>azure.cosmos.nosql.demo.AzureCosmosDBMongoVCoreLangchainDemo</mainClass>
+                    <mainClass>azure.cosmos.nosql.demo.AzureCosmosDBNoSQLLangchainDemo</mainClass>
                 </configuration>
             </plugin>
             <plugin>
