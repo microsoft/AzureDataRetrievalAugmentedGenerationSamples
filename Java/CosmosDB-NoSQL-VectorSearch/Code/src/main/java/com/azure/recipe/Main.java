@@ -7,7 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
 
 @Slf4j
 public class Main {
@@ -29,13 +30,9 @@ public class Main {
             int selectedOption = Integer.parseInt(scanner.nextLine());
             switch (selectedOption) {
                 case 1 -> uploadRecipes();
-                //case 2 -> generateEmbeddings();
                 case 2 -> performSearch(scanner);
-                default -> {
-                    return;
-                }
+                default -> System.exit(0);
             }
-
         }
     }
 
@@ -75,7 +72,6 @@ public class Main {
             openAIEmbeddingService = initOpenAIService();
         }
 
-
         System.out.println("Type the recipe name or your question, hit enter when ready.");
         String userQuery = scanner.nextLine();
 
@@ -86,33 +82,27 @@ public class Main {
         Iterable<Recipe> filteredRecipes = cosmosDbService.vectorSearch(embeddingVector);
 
         for (Recipe recipe : filteredRecipes) {
-            log.info(String.format("Query result: Recipe with (/id, partition key) = (%s,%s)",recipe.getId(),recipe.getId()));
+            log.info(String.format("Query result: Recipe with (/id, partition key) = (%s,%s)", recipe.getId(), recipe.getId()));
         }
 
         log.info("Retrieving recipe(s) from Cosmos DB (RAG pattern)..");
-        var retrivedDocs = filteredRecipes;
 
-        StringBuilder retrivedReceipeNames = new StringBuilder();
+        StringBuilder retrievedRecipeNames = new StringBuilder();
 
-        for (Recipe recipe : retrivedDocs) {
-            recipe.embedding = null; //removing embedding to reduce tokens during chat completion
-            retrivedReceipeNames.append(", ").append(recipe.name); //to dispay recipes submitted for Completion
+        for (Recipe recipe : filteredRecipes) {
+            retrievedRecipeNames.append(", ").append(recipe.name); //to display recipes submitted for Completion
         }
 
-        log.info("Processing '{}' to generate Completion using OpenAI Service..", retrivedReceipeNames);
+        log.info("Processing '{}' to generate Completion using OpenAI Service..", retrievedRecipeNames);
 
-        String completion =
-                openAIEmbeddingService
-                        .getChatCompletionAsync(userQuery, Utility.OBJECT_MAPPER.writeValueAsString(retrivedDocs));
+        String chatCompletion = openAIEmbeddingService
+                .getChatCompletionAsync(userQuery, Utility.OBJECT_MAPPER.writeValueAsString(filteredRecipes));
 
-        String chatCompletion = completion;
-
-        log.info("AI Assistant Response:", chatCompletion);
+        log.info("AI Assistant Response: {}", chatCompletion);
         System.out.println(chatCompletion);
     }
 
     private static void uploadAndVectorizeDocs(List<Recipe> recipes) throws JsonProcessingException {
-        Map<String, List<Double>> dictEmbeddings = new HashMap<>();
         int recipeWithEmbedding = 0;
         int recipeWithNoEmbedding = 0;
         int recipeCount = 0;
@@ -128,7 +118,6 @@ public class Main {
             log.info("Vectorizing Recipe# {}..", recipeCount);
             var embeddingVector = openAIEmbeddingService.getEmbeddings(Utility.OBJECT_MAPPER.writeValueAsString(recipe));
             recipe.embedding = embeddingVector;
-            dictEmbeddings.put(recipe.id, embeddingVector);
         }
 
         log.info("Updating {} recipe(s) in Cosmos DB for vectors..", recipes.size());
@@ -144,6 +133,5 @@ public class Main {
         System.out.printf("We have %d vectorized recipe(s) and %d non vectorized recipe(s).",
                 recipeWithEmbedding, recipeWithNoEmbedding);
     }
-
 
 }

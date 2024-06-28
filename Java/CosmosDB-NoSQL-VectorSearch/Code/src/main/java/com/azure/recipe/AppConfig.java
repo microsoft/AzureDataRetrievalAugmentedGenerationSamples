@@ -1,50 +1,18 @@
 package com.azure.recipe;
 
-import com.azure.cosmos.implementation.apachecommons.lang.StringUtils;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 public class AppConfig {
-    public static String allowedHosts = System.getProperty("ALLOWED_HOSTS",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("ALLOWED_HOSTS")),
-                    "*"));
-    public static String cosmosUri = System.getProperty("COSMOS_URI",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("COSMOS_URI")),
-                    "<COSMOS_URI>"));
-    public static String cosmosKey = System.getProperty("COSMOS_KEY",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("COSMOS_KEY")),
-                    "<COSMOS_KEY>"));
-    public static String cosmosDatabase = System.getProperty("COSMOS_DATABASE",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("COSMOS_DATABASE")),
-                    "<COSMOS_DATABASE>"));
-    public static String cosmosContainer = System.getProperty("COSMOS_CONTAINER",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("COSMOS_CONTAINER")),
-                    "<COSMOS_CONTAINER>"));
-    public static String recipeLocalFolder = System.getProperty("RECIPE_LOCAL_FOLDER",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("RECIPE_LOCAL_FOLDER")),
-                    "<RECIPE_LOCAL_FOLDER>"));
-    public static String openAIEndpoint = System.getProperty("OPENAI_ENDPOINT",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("OPENAI_ENDPOINT")),
-                    "<OPENAI_ENDPOINT>"));
-    public static String openAIKey = System.getProperty("OPENAI_KEY",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("OPENAI_KEY")),
-                    "<OPENAI_KEY>"));
-    public static String openAIEmbeddingDeployment = System.getProperty("OPENAI_EMBEDDING_DEPLOYMENT",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("OPENAI_EMBEDDING_DEPLOYMENT")),
-                    "<OPENAI_EMBEDDING_DEPLOYMENT>"));
-    public static String openAICompletionsDeployment = System.getProperty("OPENAI_COMPLETIONS_DEPLOYMENT",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("OPENAI_COMPLETIONS_DEPLOYMENT")),
-                    "<OPENAI_COMPLETIONS_DEPLOYMENT>"));
-    public static int openAIMaxToken = Integer.parseInt(System.getProperty("OPENAI_MAX_TOKEN",
-            StringUtils.defaultString(StringUtils.trimToNull(
-                            System.getenv().get("OPENAI_MAX_TOKEN")),
-                    "1000")));
+    private static final Config config = ConfigFactory.load();
+    public static String cosmosUri = config.getString("cosmos.uri");
+    public static String cosmosKey = config.getString("cosmos.key");
+    public static String cosmosDatabase = config.getString("cosmos.database");
+    public static String cosmosContainer = config.getString("cosmos.container");
+    public static String recipeLocalFolder = config.getString("dataset.recipe_local_folder");
+    public static String openAIEndpoint = config.getString("openai.endpoint");
+    public static String openAIKey = config.getString("openai.key");
+    public static String openAIEmbeddingDeployment = config.getString("openai.embeddings_deployment");
+    public static String openAICompletionsDeployment = config.getString("openai.chat_completions_deployment");
+    public static int openAIMaxToken = config.getInt("openai.max_tokens");
 }
