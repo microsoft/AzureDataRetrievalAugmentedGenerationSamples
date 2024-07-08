@@ -4,8 +4,8 @@ import com.azure.ai.openai.models.ChatCompletions;
 import com.azure.ai.openai.models.ChatMessage;
 import com.azure.ai.openai.models.ChatRole;
 import com.microsoft.azure.spring.chatgpt.sample.common.prompt.PromptTemplate;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.CosmosEntity;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.VectorStore;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.CosmosEntity;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.VectorStore;
 
 import java.util.ArrayList;
 import java.util.List;

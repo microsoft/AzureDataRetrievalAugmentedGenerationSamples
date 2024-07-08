@@ -61,7 +61,7 @@ The following prerequisites are required to use this application. Please ensure 
    mvn clean package
    ```  
 
-4. The following command will read and process your own private text documents, create a Cosmos DB NoSQL API collection with [vector indexing](https://learn.microsoft.com/azure/cosmos-db/nosql/vector-search#vector-indexing-policies) and [embeddings](https://learn.microsoft.com/azure/cosmos-db/nosql/vector-search#container-vector-policies) policies (see `com.microsoft.azure.springchatgpt.sample.common.vectorstore.CosmosDBVectorStore.java`), and load the processed documents into it:
+4. The following command will read and process your own private text documents, create a Cosmos DB NoSQL API collection with [vector indexing](https://learn.microsoft.com/azure/cosmos-db/nosql/vector-search#vector-indexing-policies) and [embeddings](https://learn.microsoft.com/azure/cosmos-db/nosql/vector-search#container-vector-policies) policies (see `com.microsoft.azure.springchatgpt.sample.common.store.CosmosDBVectorStore.java`), and load the processed documents into it:
 
    ```shell
       java -jar spring-chatgpt-sample-cli/target/spring-chatgpt-sample-cli-0.0.1-SNAPSHOT.jar --from=C:/<path you your private text docs>

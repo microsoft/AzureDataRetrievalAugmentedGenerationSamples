@@ -10,11 +10,11 @@ import com.azure.spring.data.cosmos.core.CosmosTemplate;
 import com.azure.spring.data.cosmos.repository.config.EnableCosmosRepositories;
 import com.microsoft.azure.spring.chatgpt.sample.common.AzureOpenAIClient;
 import com.microsoft.azure.spring.chatgpt.sample.common.ChatPlanner;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.CosmosDBVectorStore;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.CosmosEntity;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.CosmosEntityRepository;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.VectorStore;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.CosmosProperties;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.CosmosDBVectorStore;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.CosmosEntity;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.CosmosEntityRepository;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.VectorStore;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.CosmosProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 @Configuration
 @EnableConfigurationProperties(CosmosProperties.class)
-@EnableCosmosRepositories(basePackages = "com.microsoft.azure.spring.chatgpt.sample.common.vectorstore")
+@EnableCosmosRepositories(basePackages = "com.microsoft.azure.spring.chatgpt.sample.common.store")
 public class Config extends AbstractCosmosConfiguration {
 
     @Autowired

@@ -1,8 +1,8 @@
 package com.microsoft.azure.spring.chatgpt.sample.common;
 
 import com.microsoft.azure.spring.chatgpt.sample.common.reader.SimpleFolderReader;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.CosmosDBVectorStore;
-import com.microsoft.azure.spring.chatgpt.sample.common.vectorstore.CosmosEntity;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.CosmosDBVectorStore;
+import com.microsoft.azure.spring.chatgpt.sample.common.store.CosmosEntity;
 
 import java.io.IOException;
 import java.util.List;
