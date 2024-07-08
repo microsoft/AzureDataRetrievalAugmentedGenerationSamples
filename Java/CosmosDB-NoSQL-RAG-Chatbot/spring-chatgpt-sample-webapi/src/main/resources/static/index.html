@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <title>Spring ChatGPT Sample</title>
+  <base target="_blank">
+  <link rel="stylesheet" href="main.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="main">
+    <div id="chat-history" v-cloak>
+      <div id="chat-history-list">
+        <div v-for="item in chatHistory.data.slice().reverse()" class="chat-summary" v-on:click="openChat(item.id)" v-bind:class="{ active: chatHistory.activeChatId === item.id }" v-bind:key="item.id">
+          <div class="chat-summary-title">{{ item.title }}<div class="close-button" v-on:click="removeChat(item.id)"></div></div>
+          <div class="chat-summary-meta">
+            <div class="chat-summary-message-count">{{ item.messages.length }} {{ item.messages.length > 1 ? 'messages' : 'message' }}</div>
+            <div class="chat-summary-timestamp">{{ parseTimestamp(item.timestamp) }}</div>
+          </div>
+        </div>
+      </div>
+      <div id="chat-history-new">
+        <button class="chat-history-new-button" v-on:click="newChat">New chat</button>
+      </div>
+    </div>
+    <div id="chat-thread" v-cloak>
+      <div id="chat-thread-message-list">
+        <div v-for="item in chatHistory.data.find(chat => chat.id === chatHistory.activeChatId).messages" class="chat-thread-message" v-bind:class="{ 'chat-thread-message-bot': item.sender === 'bot', 'chat-thread-message-human': item.sender === 'human' }">
+          <div class="chat-thread-avatar"></div>
+          <div class="chat-thread-message-content">
+            <div class="chat-thread-message-timestamp">{{ parseTimestamp(item.timestamp) }}</div>
+            <div v-html="parseMarkdown(item.text)"></div>
+          </div>
+        </div>
+        <div class="chat-thread-message chat-thread-message-bot" v-if="chatHistory.job[chatHistory.activeChatId] && chatHistory.job[chatHistory.activeChatId].length > 0">
+          <div class="chat-thread-avatar"></div>
+          <div id="chat-thread-message-bot-typing" class="chat-thread-message-content">
+            <img src="loading.svg">
+          </div>
+        </div>
+      </div>
+      <div class="chat-thread-input-box">
+        <textarea id="chat-input-box" v-on:keydown="pressToSendMessage"></textarea>
+        <button class="chat-thread-send-button" v-on:click="sendMessage">Send</button>
+      </div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
