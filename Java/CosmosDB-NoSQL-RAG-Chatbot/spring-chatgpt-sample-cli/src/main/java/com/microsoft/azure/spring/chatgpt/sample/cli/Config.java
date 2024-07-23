@@ -37,13 +37,6 @@ public class Config extends AbstractCosmosConfiguration {
     @Value("${AZURE_OPENAI_APIKEY}")
     private String apiKey;
 
-/*    @Value("${COSMOS_URI}")
-    private String cosmosEndpoint;
-
-    @Value("${COSMOS_KEY}")
-    private String cosmosKey;*/
-
-
     @Autowired
     private CosmosProperties properties;
 
@@ -52,9 +45,6 @@ public class Config extends AbstractCosmosConfiguration {
 
     @Autowired
     private ApplicationContext applicationContext;
-
-    //@Autowired
-    //private CosmosTemplate cosmosTemplate;
 
     public Config() throws IOException {
     }
@@ -89,7 +79,8 @@ public class Config extends AbstractCosmosConfiguration {
 
     @Bean
     public CosmosDBVectorStore vectorStore() {
-        CosmosDBVectorStore store = new CosmosDBVectorStore(cosmosEntityRepository, properties.getContainerName(), properties.getDatabaseName(),applicationContext);
+        CosmosDBVectorStore store = new CosmosDBVectorStore(cosmosEntityRepository, properties.getContainerName(),
+                properties.getDatabaseName(), applicationContext);
         return store;
     }
 }
