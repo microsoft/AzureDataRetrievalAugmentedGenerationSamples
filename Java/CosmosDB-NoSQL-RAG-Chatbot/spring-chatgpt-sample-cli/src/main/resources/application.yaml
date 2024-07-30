@@ -1,0 +1,20 @@
+vector-store:
+  file: /spring-chatgpt-sample-webapi/private-data/vector_store.json
+spring:
+  main:
+    allow-circular-references: true
+  data:
+    cosmos:
+      uri: ${COSMOS_URI}
+      key: ${COSMOS_KEY}
+      secondaryKey: ${SECONDARY_ACCOUNT_KEY}
+      databaseName: testdb
+      containerName: vectorstore
+      populateQueryMetrics: false
+      requestTimeout: 10000
+      consistencyLevel: SESSION
+
+      # Set to true to populate query metrics -
+      # NOTE: this will NOT give request information about point reads (only queries)
+      # See https://aka.ms/PointReadsInSpring for more information on the difference between point reads and queries.
+      queryMetricsEnabled: false
