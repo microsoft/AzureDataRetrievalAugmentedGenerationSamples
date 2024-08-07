@@ -110,8 +110,6 @@ public class AzureCosmosDBNoSQLLangchainDemo {
                 .temperature(0.3)
                 .logRequestsAndResponses(true)
                 .build();
-        model.generate(
-                "Given the context information and not prior knowledge, answer the question. If you can't answer the question, use the most relevant contextual information as the answer, and do not add more information: %s");
         System.out.println("Azure Open AI Chat Model initialized");
         // Now, let's load a document that we want to use for RAG.
         // We are using abstracts of papers submitted to Computer Vision and Pattern
