@@ -1,7 +1,6 @@
 package com.azure.recipe.service;
 
 import com.azure.ai.openai.OpenAIAsyncClient;
-import com.azure.ai.openai.OpenAIClient;
 import com.azure.ai.openai.OpenAIClientBuilder;
 import com.azure.ai.openai.models.*;
 import com.azure.core.credential.AzureKeyCredential;
@@ -16,12 +15,12 @@ import java.util.List;
 
 @Slf4j
 public class OpenAIService {
-    private String openAIEmbeddingDeployment;
-    private String openAICompletionDeployment;
-    private int openAIMaxTokens;
+    private final String openAIEmbeddingDeployment;
+    private final String openAICompletionDeployment;
+    private final int openAIMaxTokens;
 
-    private OpenAIAsyncClient openAIClient;
-    private String systemPromptRecipeAssistant = """
+    private final OpenAIAsyncClient openAIClient;
+    private final String systemPromptRecipeAssistant = """
             You are an intelligent assistant for Contoso Recipes. 
             You are designed to provide helpful answers to user questions about using
             recipes, cooking instructions only using the provided JSON strings.
@@ -31,10 +30,10 @@ public class OpenAIService {
             - Never refer to a recipe not provided as input to you.
             - If you're unsure of an answer, you can say ""I don't know"" or ""I'm not sure"" and recommend users search themselves.        
             - Your response  should be complete. 
-            - List the Name of the Recipe at the start of your response folowed by step by step cooking instructions
+            - List the Name of the Recipe at the start of your response followed by step by step cooking instructions
             - Assume the user is not an expert in cooking.
             - Format the content so that it can be printed to the Command Line 
-            - In case there are more than one recipes you find let the user pick the most appropiate recipe. """;
+            - In case there are more than one recipes you find let the user pick the most appropriate recipe. """;
 
 
     public OpenAIService(String endpoint,
@@ -91,7 +90,6 @@ public class OpenAIService {
         systemMessage.setContent(systemPromptRecipeAssistant + documents);
         ChatMessage userMessage = new ChatMessage(ChatRole.USER);
         userMessage.setContent(userPrompt);
-
 
         ChatCompletionsOptions options = new ChatCompletionsOptions(List.of(userMessage, systemMessage));
         options.setMaxTokens(openAIMaxTokens);

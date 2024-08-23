@@ -18,18 +18,17 @@ mvn install
 
 ### Run
 
-Before running the application, you need to set environment variables. Either export them in command line or set system variables:
+Before running the application, you need to configure endpoints for Azure Cosmos DB and OpenAI in resources/application.conf. 
+```hocon
+cosmos {
+  uri = "cosmos db uri"
+  key = "cosmos db key"
+}
 
-```bash
-    export COSMOS_URI="URI of your Cosmos DB account"
-    export COSMOS_KEY="KEY of your Cosmos DB account"
-    export COSMOS_DATABASE="name of a database you have created"
-    export COSMOS_CONTAINER="name of a container in above database, partitioned by id"
-    export RECIPE_LOCAL_FOLDER="the full path to the Recipe folder in this project e.g. C:CosmosDemo\OpenAICognitiveSearch\Recipe"
-    export OPENAI_ENDPOINT="endpoint for your Azure OpenAI account"
-    export OPENAI_KEY="key for your Azure OpenAI account"
-    export OPENAI_EMBEDDING_DEPLOYMENT="deployment id for your Azure OpenAI chat embeddings"
-    export OPENAI_COMPLETIONS_DEPLOYMENT="deployment is for your Azure OpenAI chat completions"
+openai {
+  endpoint = "openai endpoint"
+  key = "openai key"
+}
 ```
 
 Then run the app:
