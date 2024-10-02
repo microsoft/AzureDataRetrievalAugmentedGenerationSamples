@@ -22,7 +22,7 @@ Table below provides a high level guidance. Please follow the links to the relev
 |   Azure Cache for Redis |      Native    | Sample in this repo (Python)|
 |   CosmosDB - PostgreSQL  |    Native    |                   Sample in this repo (Python)                         |
 |   CosmosDB - MongoDB |    Native      |                   Sample in this repo (C#, Python)                          |
-|   CosmosDB - NoSQL  |    Native      |                    Sample in this repo (C#, Python)                       |
+|   CosmosDB - NoSQL  |    Native      |                    Sample in this repo (C#, Python, Java)                       |
 |   AzureSQL  |      ACS    |                      Sample in this repo (Python)                      |          |
 |   Fabric OneLake  |   ACS       |            [Fabric Notebook](https://msit.powerbi.com/groups/d53590d4-b7f4-4168-816f-bd1a0a6417cd/synapsenotebooks/b37add4f-dbe7-44eb-8ed1-bfd7b2036ed9?experience=power-bi)                                 |
 
