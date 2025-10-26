@@ -48,7 +48,7 @@ public class CosmosDbService {
         CosmosVectorIndexSpec cosmosVectorIndexSpec = new CosmosVectorIndexSpec();
         cosmosVectorIndexSpec.setPath("/embedding");
         cosmosVectorIndexSpec.setType(CosmosVectorIndexType.DISK_ANN.toString());
-        indexingPolicy.setVectorIndexes(Arrays.asList(cosmosVectorIndexSpec));
+        indexingPolicy.setVectorIndexes(List.of(cosmosVectorIndexSpec));
         collectionDefinition.setIndexingPolicy(indexingPolicy);
 
         //create container
@@ -85,10 +85,10 @@ public class CosmosDbService {
         cosmosBulkOperationResponseFlux.blockLast();
     }
 
-    public Iterable<Recipe> vectorSearch(List<Double> vector){
+    public Iterable<Recipe> vectorSearch(List<Double> vector) {
         ArrayList<SqlParameter> paramList = new ArrayList<SqlParameter>();
-        paramList.add(new SqlParameter("@embedding", vector.stream().map(aDouble -> (Float) (float) aDouble.doubleValue()).collect(Collectors.toList()).toArray()));
-        SqlQuerySpec querySpec = new SqlQuerySpec("SELECT TOP 3 c.name, c.description, c.embedding, c.cuisine, c.difficulty, c.prepTime, c.cookTime, c.totalTime, c.servings, c.ingredients, c.instructions,  VectorDistance(c.embedding,@embedding) AS SimilarityScore   FROM c ORDER BY VectorDistance(c.embedding,@embedding)", paramList);
+        paramList.add(new SqlParameter("@embedding", vector.stream().map(aDouble -> (Float) (float) aDouble.doubleValue()).toList().toArray()));
+        SqlQuerySpec querySpec = new SqlQuerySpec("SELECT TOP 3 c.name, c.description, c.cuisine, c.difficulty, c.prepTime, c.cookTime, c.totalTime, c.servings, c.ingredients, c.instructions,  VectorDistance(c.embedding,@embedding) AS SimilarityScore   FROM c ORDER BY VectorDistance(c.embedding,@embedding)", paramList);
         ArrayList<Recipe> filteredRecipes = (ArrayList<Recipe>) container.queryItems(querySpec, new CosmosQueryRequestOptions(), Recipe.class).collectList().block();
         return filteredRecipes;
     }
