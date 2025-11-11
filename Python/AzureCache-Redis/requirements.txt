@@ -3,4 +3,4 @@ python-dotenv==1.0.0
 pandas==1.5.3
 openai==0.27.8
 jupyter==1.0.0
-requests==2.31.0
+requests==2.32.2
