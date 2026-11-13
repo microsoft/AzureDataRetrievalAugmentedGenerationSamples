@@ -229,7 +229,7 @@ def rerank(client, query, rows, options=None):
     except Exception as exc:
         raise SearchError("Reranking failed. No results are labelled reranked. Check the "
                           "inference endpoint, Semantic Reranker User role, propagation "
-                          "and preview availability.") from exc
+                          "and service availability.") from exc
     scores = response.get("scores") if isinstance(response, Mapping) else None
     if not isinstance(scores, list) or len(scores) != expected:
         raise SearchError("Invalid reranker response: unexpected result count.")

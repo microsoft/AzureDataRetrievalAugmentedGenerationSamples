@@ -45,7 +45,9 @@ def test_dataset_summary_uses_config_only_and_tracks_selection(monkeypatch):
     for name in ("get_container", "get_inference_client", "get_cosmos_client",
                  "get_credential", "get_embedding_client", "embed_text"):
         monkeypatch.setattr(search_demo, name, Mock(side_effect=AssertionError(name)))
-    app = AppTest.from_file(str(APP)).run()
+    # First Streamlit run includes cold imports after the full unit suite.
+    # Bound startup separately; keep all service guards and exception assertions.
+    app = AppTest.from_file(str(APP)).run(timeout=15)
     assert not app.exception
     assert_dataset_summary(app, database="custom-movies")
     assert len(app.table) == 0

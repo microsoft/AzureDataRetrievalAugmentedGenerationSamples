@@ -33,7 +33,7 @@ An upgrade to the latest azd is not required merely to use this sample.
 | Public network and trusted TLS | Access to Azure login, ARM, Cosmos, inference, PyPI, NuGet, azd/Bicep downloads and package feeds. Install required corporate CA trust correctly; never disable certificate validation. Cosmos .NET Direct mode also needs its documented outbound TCP connectivity; `COSMOS_CONNECTION_MODE=Gateway` is an alternative on HTTPS-only networks. |
 | Identity, subscription, tenant | Use the same Entra user in azd and Azure CLI. Set the intended subscription in both. `azd auth login` does not replace `az login` for local SDK credentials. Remove stale service-principal credential variables or choose a clean shell if they cause DefaultAzureCredential to use another identity. |
 | Subscription permissions | Permission to create a resource group and the resources at subscription scope, create Cosmos SQL role assignments, and create Azure RBAC role assignments. Contributor alone cannot grant all RBAC roles. Owner or an equivalent combination of resource Contributor and RBAC administration is needed. |
-| Registered providers | `Microsoft.DocumentDB`, `Microsoft.InferenceService`, and `Microsoft.CognitiveServices` must be registered. Registration needs permission and may take time; it does not guarantee preview entitlement. |
+| Registered providers | `Microsoft.DocumentDB`, `Microsoft.InferenceService`, and `Microsoft.CognitiveServices` must be registered. Registration needs permission and may take time; it does not guarantee service availability. |
 | Availability, policy and quota | Confirm inference API/region access, Cosmos account and provisioned RU quotas, and subscription policies. Default is `uksouth`; this template allows `uksouth`, `eastus2`, `westus3`. Both accounts use the selected region. |
 | Data roles and propagation | IaC grants the signed-in azd user Cosmos Built-in Data Contributor on the new account and Semantic Reranker User on the new inference account. Wait for propagation before loading/searching. Do not respond to 403 by enabling keys or broadening roles. |
 | Paid resources | Dedicated manual 400 RU/s per container, continuously billed until removal, plus storage and inference charges. Python creates two containers (800 RU/s); combined root creates four (1600 RU/s). No 10,000 RU/s default or autoscale. Review current Azure pricing before provisioning. |
@@ -62,8 +62,8 @@ sources in this repository. Use normal public sources with trusted TLS.
 
 The preprovision hook also uses `AzureCliCredential` to perform an authenticated
 ARM GET for the exact inference account. HTTP 404 permits creation; an existing
-compatible, ready, keyless account is referenced without a repeated PUT because
-the preview service rejects duplicate creates. Other status codes fail explicitly.
+compatible, ready, keyless account is referenced without a repeated PUT.
+Only absence authorizes creation. Other status codes fail explicitly.
 `AZURE_CREATE_INFERENCE` is recalculated and persisted on every run, never inferred
 from old outputs. Azure CLI login and ARM read permission are therefore required
 before provisioning as well as before running the apps. Do not bypass the hook.
@@ -90,7 +90,7 @@ before provisioning as well as before running the apps. Do not bypass the hook.
   is not a credential. Never delete valid naming state to force a new name.
 - Cosmos API `2025-05-01-preview`, NoSQL, Entra-only (`disableLocalAuth`),
   one region, Session consistency, public endpoint for local development.
-  Inference API `2026-08-01-preview`, same name and location, location-only
+  Stable Inference API `2026-10-15`, same name and location, location-only
   request body and service-returned `properties.endpoint`. Keys are disabled
   by the inference service default; the template does not enable/request them.
 - Database `reranker`. Python: `search_qflat`, `search_diskann`.
@@ -249,7 +249,7 @@ After dot-sourcing, inspect only this environment:
 az cosmosdb list --subscription $env:AZURE_SUBSCRIPTION_ID `
   --resource-group $env:AZURE_RESOURCE_GROUP `
   --query '[].{name:name,id:id,endpoint:documentEndpoint,localAuthDisabled:disableLocalAuth,capabilities:capabilities[].name}' -o json
-az resource show --ids $env:INFERENCE_ACCOUNT_ID --api-version 2026-08-01-preview `
+az resource show --ids $env:INFERENCE_ACCOUNT_ID --api-version 2026-10-15 `
   --query '{name:name,id:id,endpoint:properties.endpoint}' -o json
 az cognitiveservices account list --subscription $env:AZURE_SUBSCRIPTION_ID `
   --resource-group $env:AZURE_RESOURCE_GROUP `

@@ -263,7 +263,7 @@ def test_iac_contract():
     assert "utcNow(" not in resources and "newGuid(" not in resources
     for token in (
         "Microsoft.DocumentDB/databaseAccounts@2025-05-01-preview",
-        "Microsoft.InferenceService/inferenceAccounts@2026-08-01-preview",
+        "Microsoft.InferenceService/inferenceAccounts@2026-10-15",
         "EnableNoSQLVectorSearch", "EnableNoSQLFullTextSearchPreviewFeatures",
         "disableLocalAuth: true", "throughput: 400", "dimensions: 1536",
         "distanceFunction: 'cosine'", "dataType: 'float32'", "'/id'",

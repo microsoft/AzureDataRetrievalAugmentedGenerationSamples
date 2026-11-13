@@ -73,7 +73,7 @@ The script uses this control-plane contract:
 ```text
 PUT /subscriptions/{subscription}/resourceGroups/{group}/providers/
     Microsoft.InferenceService/inferenceAccounts/{existingCosmosAccountName}
-    ?api-version=2026-08-01-preview
+    ?api-version=2026-10-15
 
 {"location": "<supported-region>"}
 ```

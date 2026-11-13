@@ -8,7 +8,7 @@ from urllib.parse import quote, urlsplit
 
 from container_setup import az_json
 
-API_VERSION = "2026-08-01-preview"
+API_VERSION = "2026-10-15"
 ROLE_ID = "6c74a7c5-4a87-40f9-bb03-61e49aecbc78"
 logger = logging.getLogger(__name__)
 

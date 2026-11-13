@@ -194,6 +194,10 @@ Expand **Advanced reranking**, after enabling the reranker:
 limit 1 through 10 on the server, not only in widgets. JSON mode builds a new
 object per candidate containing **only** selected fields, encodes it with
 `json.dumps`, and sets `documentType="json"` and comma-separated `targetPaths`.
+The public GA `azure-data-ai==1.0.0` client accepts this raw dictionary directly.
+Keep `targetPaths` a string in this dictionary, not the list accepted by the
+typed request model's `target_paths` constructor. The application does not read
+or mutate that typed property before serialization.
 Description is the UI label for the actual `text` field. Unselected fields,
 embeddings, IDs, and system properties are not sent for inference.
 Changing JSON targets affects reranking only, not the Cosmos retrieval query.

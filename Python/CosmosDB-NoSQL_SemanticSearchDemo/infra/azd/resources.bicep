@@ -129,7 +129,7 @@ resource containers 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containe
   }
 }]
 
-// The preview API rejects repeated PUTs. Preflight selects creation only on HTTP 404.
+// Reuse existing inference accounts. Preflight selects creation only on HTTP 404.
 module newInference 'new-inference.bicep' = if (createInference == 'true') {
   name: 'create-inference'
   params: {
@@ -139,7 +139,7 @@ module newInference 'new-inference.bicep' = if (createInference == 'true') {
   dependsOn: [cosmos]
 }
 
-resource inference 'Microsoft.InferenceService/inferenceAccounts@2026-08-01-preview' existing = {
+resource inference 'Microsoft.InferenceService/inferenceAccounts@2026-10-15' existing = {
   name: cosmosAccountName
 }
 

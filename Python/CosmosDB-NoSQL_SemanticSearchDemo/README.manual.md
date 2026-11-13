@@ -5,7 +5,7 @@
 > below are not the default search dataset.
 
 A Streamlit movie-search sample using Azure Cosmos DB for NoSQL retrieval and
-the standalone [`azure-data-ai==1.0.0b1`](https://pypi.org/project/azure-data-ai/1.0.0b1/)
+the public GA [`azure-data-ai==1.0.0`](https://pypi.org/project/azure-data-ai/1.0.0/)
 `InferenceClient` for semantic reranking. Cosmos DB does retrieval, not inference.
 
 The original UI remains: index selector, search input, reranker checkbox,
@@ -22,7 +22,7 @@ retrieval and reranking durations.
 Read **[all prerequisites](infra/azd/README.md#all-prerequisites)** first,
 including azd, Azure CLI, PowerShell 7 on every OS, Python/venv/pip,
 authentication, subscription permissions, provider registration, network
-access, preview availability, quotas and ongoing container charges.
+access, service availability, quotas and ongoing container charges.
 Docker and .NET are not required for this standalone Python path. These manual
 tests do not call OpenAI, but current azd infrastructure provisions it; its quota
 and cost prerequisites still apply.
@@ -114,7 +114,7 @@ Prerequisites:
 - Permission to provision missing sample containers through the Azure control
   plane, or an administrator who can run the setup step.
 - A companion inference account in a supported region when reranking is enabled.
-  The standalone package is a preview; service availability and access can vary.
+  The standalone package is GA; service availability and access can vary.
 
 From this sample directory:
 
@@ -383,8 +383,8 @@ not the entire repository or a local `.venv`/`.env`.
 | Container policy mismatch | Wrong database or incompatible existing containers. Setup intentionally refuses replacement |
 | Full-text/vector query rejected | Account capabilities, correct container policies, current SDK/CLI, indexing readiness |
 | No fixture results | Loader exit status and counts, correct database, point-readbacks, full-text index propagation |
-| Reranker denied/unavailable | Inference endpoint, companion resource provisioning, **Semantic Reranker User** scope/propagation, supported region/preview access |
-| Invalid reranker response | Package/service preview contract changed. Do not add silent fallback or guess indices |
+| Reranker denied/unavailable | Inference endpoint, companion resource provisioning, **Semantic Reranker User** scope/propagation, supported region/service access |
+| Invalid reranker response | Check the pinned public GA package and service response contract. Do not add silent fallback or guess indices |
 | Missing OpenAI config | Use full-text modes or configure the deployment and role; no embedding call is needed for preembedded loading |
 | Persistent throttling | Use concurrency 1, a smaller explicit batch, and retry later. No automatic throughput change |
 | App starts but requests fail | Test a real search interaction. HTTP health alone does not prove the page or Azure calls succeeded |

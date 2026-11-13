@@ -1,7 +1,7 @@
 # Semantic search and standalone reranking
 
 A local Streamlit movie-search sample using Azure Cosmos DB for NoSQL,
-Azure OpenAI embeddings and the standalone `azure-data-ai` inference client.
+Azure OpenAI embeddings and the public GA `azure-data-ai==1.0.0` inference client.
 The existing layout and search controls are preserved, with a collapsed
 Advanced reranking section. See the [search guide](SEARCH_GUIDE.md) for manual
 startup, feature walkthroughs, JSON targeting, result limits and sentence diagnostics.
@@ -14,7 +14,7 @@ Standalone Python needs neither .NET nor Docker.
 
 Use the same Entra identity and subscription for `az login` and `azd auth login`.
 You need resource creation and scoped role-assignment permissions, registered
-DocumentDB/InferenceService/CognitiveServices providers, inference preview access,
+DocumentDB/InferenceService/CognitiveServices providers, inference service access,
 Cosmos quota, and available OpenAI model quota.
 
 Default embeddings: UKSouth, `text-embedding-3-small`, version `1`,

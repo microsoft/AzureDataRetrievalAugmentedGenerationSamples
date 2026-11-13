@@ -30,7 +30,7 @@ def test_reuse_reads_cosmos_and_exact_inference_only():
                                 "--resource-group", "rg", "--name", "account")
     arm.get.assert_called_once_with(RESOURCE, allow_missing=True)
     arm.put.assert_not_called()
-    assert API_VERSION == "2026-08-01-preview"
+    assert API_VERSION == "2026-10-15"
 
 
 def test_missing_default_is_read_only():
@@ -155,7 +155,7 @@ def test_transport_404_is_the_only_missing_signal():
     assert arm.get(RESOURCE, allow_missing=True) is None
     call = arm.session.request.call_args
     assert call.args[0] == "GET"
-    assert call.args[1].endswith(RESOURCE + "?api-version=2026-08-01-preview")
+    assert call.args[1].endswith(RESOURCE + "?api-version=2026-10-15")
     assert call.kwargs["allow_redirects"] is False
 
 

@@ -154,7 +154,7 @@ def prepare_inference(project_root):
     with AzureCliCredential() as credential:
         token = credential.get_token("https://management.azure.com/.default").token
         response = requests.get(
-            f"https://management.azure.com{resource_id}?api-version=2026-08-01-preview",
+            f"https://management.azure.com{resource_id}?api-version=2026-10-15",
             headers={"Authorization": f"Bearer {token}"}, timeout=30,
         )
     if response.status_code == 404:

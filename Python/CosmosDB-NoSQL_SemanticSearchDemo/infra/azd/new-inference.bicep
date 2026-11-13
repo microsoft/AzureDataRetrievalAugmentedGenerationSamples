@@ -3,7 +3,7 @@ targetScope = 'resourceGroup'
 param accountName string
 param location string
 
-resource inference 'Microsoft.InferenceService/inferenceAccounts@2026-08-01-preview' = {
+resource inference 'Microsoft.InferenceService/inferenceAccounts@2026-10-15' = {
   name: accountName
   location: location
 }
