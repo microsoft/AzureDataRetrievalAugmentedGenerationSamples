@@ -9,3 +9,13 @@ venv
 __pycache__/
 *.pyc
 *.pyo
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.local/
+*.log
+**/.azure/
+.azd-config-*
+infra/azd/*.json
+!infra/azd/main.parameters.json

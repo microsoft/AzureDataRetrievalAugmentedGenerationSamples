@@ -1,400 +1,157 @@
-# Semantic Search Demo for Azure Cosmos DB
+# Semantic search and standalone reranking
 
-This folder contains a Python Streamlit application that demonstrates advanced search capabilities using Azure Cosmos DB and OpenAI. The application showcases vector search, full text search, text ranking, and hybrid search with intelligent semantic reranking to improve result relevance.
-
-> **🚨 IMPORTANT NOTICE**: The **Azure Cosmos DB Semantic Reranker** feature used in this demo is currently in **private preview**. To use the semantic reranking functionality, you must request special access from the Azure Cosmos DB team and obtain a private reranker endpoint. You can sign up here: https://aka.ms/AzureCosmosDB/RerankerPreview. For more information, contact us at CosmosDBSemanticReranker@Microsoft.com. The application will work without this feature for all other search capabilities.
-
-![screenshot](media/screen-shot.png)
-
-## ✨ Features
-
-- **Multi-Modal Search Integration** with Azure Cosmos DB:
-  - 🔍 **Semantic search** for movies using OpenAI embeddings
-  - 📝 **Full text search** with advanced text processing
-  - 🔄 **Hybrid search** combining semantic and full text search
-  - 📊 **Text ranking** for enhanced result ordering
-- **🎯 Semantic Reranking** (⚠️ **PRIVATE PREVIEW**):
-  > **🚨 IMPORTANT**: The Azure Cosmos DB Semantic Reranker is currently in **private preview** and requires special access (see above).
-  - Built-in Azure Cosmos DB SDK semantic reranking
-  - Interactive UI toggle to enable/disable reranking
-  - Preserves original metadata while improving result relevance
-  - Uses DefaultAzureCredential for secure authentication
-- **📈 Multiple Index Support**:
-  - QFLAT vector index for balanced performance
-  - DiskANN vector index for high-scale scenarios
-- **🛡️ Robust Error Handling**:
-  - Graceful credential validation
-  - Helpful troubleshooting messages
-  - Fallback modes when services are unavailable
-- **🎨 Interactive UI** built with Streamlit
+A local Streamlit movie-search sample using Azure Cosmos DB for NoSQL,
+Azure OpenAI embeddings and the public GA `azure-data-ai==1.0.0` inference client.
+The existing layout and search controls are preserved, with a collapsed
+Advanced reranking section. See the [search guide](SEARCH_GUIDE.md) for manual
+startup, feature walkthroughs, JSON targeting, result limits and sentence diagnostics.
 
 ## Prerequisites
 
-- [Azure Cosmos DB](https://azure.microsoft.com/services/cosmos-db/) account with NoSQL API
-  - **⚠️ IMPORTANT:** You must enable the following preview features in your Azure Cosmos DB account:
-    - Navigate to your Cosmos DB account in the Azure Portal
-    - Go to **Settings** → **Features**
-    - Enable **"Vector Search for NoSQL API"** 
-    - Enable **"Preview Features for Full Text Search"**
-    - These features are required for vector indexing and full text search capabilities
-- [Azure OpenAI](https://azure.microsoft.com/products/ai-services/openai-service) account
-- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) (for local authentication)
+Install Git, Azure CLI, azd (baseline 1.25.6), PowerShell 7 on every OS,
+Python 3.10+ with venv/pip, and trusted public package/Azure network access.
+Standalone Python needs neither .NET nor Docker.
 
-## 🚀 Quick Start
+Use the same Entra identity and subscription for `az login` and `azd auth login`.
+You need resource creation and scoped role-assignment permissions, registered
+DocumentDB/InferenceService/CognitiveServices providers, inference service access,
+Cosmos quota, and available OpenAI model quota.
 
-### 1. Clone and Setup
+Default embeddings: UKSouth, `text-embedding-3-small`, version `1`,
+GlobalStandard capacity `30`, explicitly requested 1536 dimensions.
+GlobalStandard can process globally, not exclusively in UKSouth.
+This is pay-per-token usage, not provisioned OpenAI throughput. Budget for
+two continuously billed 400 RU/s containers, storage, inference and embedding
+tokens. See [all prerequisites](infra/azd/README.md#all-prerequisites).
 
-```sh
-git clone https://github.com/microsoft/AzureDataRetrievalAugmentedGenerationSamples.git
-cd AzureDataRetrievalAugmentedGenerationSamples/Python/CosmosDB-NoSQL_SemanticSearchDemo
-```
+## Deploy and run
 
-### 2. Create and Activate Virtual Environment
+From this directory:
 
-Create a virtual environment at the project root:
-
-```sh
-python -m venv venv
-```
-
-**Activate the virtual environment:**
-
-**PowerShell (Windows):**
 ```powershell
-.\venv\Scripts\Activate.ps1
+azd up
+pwsh ./scripts/start.ps1
 ```
 
-**Bash (Linux/macOS):**
-```bash
-source venv/bin/activate
-```
+Choose a unique environment name, subscription and supported Cosmos/inference
+region. Keep ignored `.azure/` state. Use different environments for the standalone
+and combined projects. Tools and login are prerequisites, not installed by hooks.
+No prior `azd init` or `azd env new` is required. Explicit environment,
+subscription and location can be passed directly as `azd up` flags.
 
-### 3. Install Dependencies
+`preup` creates `.venv`, installs requirements, persists/reuses the GUID and
+resets inference creation to `false`. This bootstrap does not authenticate or
+call Azure. The service-free workflow then runs native `azd provision`, not
+package/deploy steps. Mandatory `preprovision` uses azd's resolved subscription
+and location for the authenticated inference GET; only HTTP 404 authorizes
+creation. No hook guesses unresolved flags or falls back to the CLI's default
+subscription.
+`postprovision` only generates private `.env`
+and `.local/azd-env.ps1`. `postup` restores all **4,489 MovieLens source rows**
+from the [pinned original file in the user's fork](https://github.com/TheovanKraay/AzureDataRetrievalAugmentedGenerationSamples/blob/7fd162fc633617857f8b8ed2c5b2b92d4d8ef0b6/DataSet/Movies/MovieLens-4489-256D.json).
+It downloads only to ignored `.local/movielens/` and enforces 48,244,182 raw bytes,
+SHA256 `5f43a3b0815b80b85c647b38d3d86c320aaf0c0937a79561fe643156e62c6295`,
+schema and exact row count. A CRLF checkout is not accepted as the raw source.
+The source repository retains its Microsoft MIT attribution.
 
-```sh
-pip install -r src/app/requirements.txt
-```
+Source `overview` maps to `text`. Metadata and original ID are retained in
+`source_metadata` and `source_movie_id`. Source 256-dimensional vectors are
+discarded, never used with the 1536-dimensional containers. Embeddings use only
+overview text and the deployed model, with validated indexes, finite values and
+dimensions. Source and embedding provenance are stored with each record.
+IDs are `movielens-4489-v1-<one-based padded row index>-<original movie ID>`.
+There are 4,486 unique original IDs; all 4,489 rows are preserved, not deduplicated.
+Only allowlisted title/text fields can be sent for reranking.
 
-### 4. Configure Environment Variables
+The loader preflights ownership across all targets before writes, then verifies
+every expected ID, source content, provenance and vector by exact readback.
+Only after ALL targets pass may the hook's `--cleanup-original-fixtures` flag
+delete the exact ten unchanged `original-movies-v1-` fixture IDs per target with
+matching full source data, provenance, ownership and conditional etags.
+Changed or foreign records cause an explicit error and are never overwritten
+or deleted. The tiny fixture is smoke/offline data only, not the default.
 
-Copy the template and configure your settings:
+Repeat `azd up` to reuse cached batches and skip unchanged validated records.
+**The first full load can take time.** Downloading the corpus, generating real
+embeddings, writing the targets and verifying every source row depend on service
+latency, throttling and role propagation. No fixed completion time is promised.
+Watch embedding-batch progress and per-container preflight, write and readback
+progress. Provisioning success alone does not establish a complete load; wait
+for the seed hook to succeed.
 
-```sh
-cp .env.template .env
-```
+Missing owned records are repaired. Cache entries include source/content and
+deployment/model/version/dimensions provenance plus vector hashes. Corruption
+fails explicitly; remove only the named bad entry to regenerate it.
+Bounded 403 propagation and 429/5xx retries do not hide the original failure.
+Each invocation writes a private receipt under `.local/movielens/`, including
+verified counts per container, generated/reused embeddings and removed fixtures.
+Keep the ignored cache when resuming. Receipts use unique
+`receipt-<unique-id>.json` filenames, so later runs preserve earlier evidence.
+Inspect receipt status, verified/skipped/written counts, page counts and phase
+timings rather than assuming an interrupted run completed. Keep receipts private.
+`azd provision` intentionally does not seed. A failed deployment/seed is not a
+success and may leave paid resources; fix the error and retry. Never test with
+`azd down`.
 
-Edit `.env` with your actual values:
+The foreground launcher loads generated config automatically and serves
+<http://127.0.0.1:8501>. `-PythonPort` selects a different port.
+Busy ports fail without stopping existing listeners. Ctrl+C stops only its
+owned child process. Launching performs no data writes.
 
-```properties
-# Azure Cosmos DB Configuration (Keyless Authentication)
-COSMOS_URI=https://your-account.documents.azure.com:443/
-COSMOS_DB_DATABASE=your_database_name
+Try **Woody Buzz**, **fishing buddies**, or **toys learning to share a child's affection**.
+Exercise both indexes, all four search buttons, full-text all/any, and reranking
+off/on. Query and seed embeddings use the same deployed model.
+The home screen describes the source corpus, not live contents of a custom
+database. The search limit remains 10 candidates, not 10 source records.
 
-# Azure OpenAI Configuration  
-AZURE_OPENAI_API_KEY=your_openai_api_key_here
-AZURE_OPENAI_ENDPOINT=https://your-openai-resource.openai.azure.com/
+To resume only the data step against already configured resources:
 
-# Azure Cosmos DB Semantic Reranker (Private Preview)
-AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT=https://your-reranker-endpoint.dbinference.azure.com
-```
-
-### 5. Authentication Setup
-
-The app uses **keyless authentication** with Azure Cosmos DB:
-
-**🆔 DefaultAzureCredential (Recommended)**:
-- Uses `DefaultAzureCredential` for secure authentication
-- **Local Development**: Uses Azure CLI (`az login`)
-- **Azure Deployment**: Uses Managed Identity automatically
-- **Required**: Your identity needs "Cosmos DB Built-in Data Contributor" role
-- **Benefits**: More secure, no secrets in configuration
-
-### 6. Authenticate with Azure (Local Development)
-
-```sh
-az login
-```
-
-### 7. Load Sample Data
-
-**⚠️ IMPORTANT:** You must load data into your Azure Cosmos DB database before running the application. The search functionality requires data to be present.
-
-Make sure your virtual environment is activated, then run the data loader:
-
-**PowerShell (Windows):**
 ```powershell
-.\venv\Scripts\Activate.ps1
-python src\data\data-loader.py --text_field_name "overview" --path_to_json_array "https://raw.githubusercontent.com/microsoft/AzureDataRetrievalAugmentedGenerationSamples/refs/heads/main/DataSet/Movies/MovieLens-4489-256D.json" --database_name "searchdemo2" --concurrency 5 --vector_field_name "vector" --re_embed True
+. ./.local/azd-env.ps1
+& ./.venv/Scripts/python.exe src/seed_movies.py --confirm-write --cleanup-original-fixtures
 ```
 
-**Bash (Linux/macOS):**
-```bash
-source venv/bin/activate
-python src/data/data-loader.py --text_field_name "overview" --path_to_json_array "https://raw.githubusercontent.com/microsoft/AzureDataRetrievalAugmentedGenerationSamples/refs/heads/main/DataSet/Movies/MovieLens-4489-256D.json" --database_name "searchdemo2" --concurrency 5 --vector_field_name "vector" --re_embed True
-```
+On non-Windows use `./.venv/bin/python`. Default embedding batches contain at
+most 32 rows; `--batch-size` accepts 1-64. Optional `--source-file <path>` still
+enforces exact production bytes/hash/schema/count. This never provisions.
+Arbitrary CLI seeds require `--confirm-write`; cleanup is separately explicit.
+For combined-root restoration use the root hook or add `--include-dotnet`.
 
-**What this does:**
-- Downloads the movie dataset (4,489 records) from GitHub
-- Creates Azure Cosmos DB containers with vector and full text indexing
-- Generates embeddings using Azure OpenAI
-- Loads all data into both `search_qflat` and `search_diskann` containers
-- Takes approximately 10-15 minutes to complete
+## Configuration and verification
 
-**Note:** Make sure the `COSMOS_DB_DATABASE` in your `.env` file matches the `--database_name` parameter (e.g., "searchdemo2").
+Before `azd up`, `azd env set` can configure `AZURE_OPENAI_LOCATION` (uksouth),
+`EMBEDDING_MODEL` (text-embedding-3-small), `EMBEDDING_VERSION` (1),
+`EMBEDDING_DEPLOYMENT` (text-embedding-3-small), `EMBEDDING_SKU` (GlobalStandard),
+and `EMBEDDING_CAPACITY` (30). `text-embedding-3-large` also uses 1536 dimensions.
+Check model/version/SKU regional availability and quota first. No automatic
+region fallback. Standard/DataZoneStandard are options only where supported.
 
-### 8. Run the Application
-
-Make sure your virtual environment is activated, then choose one of the options below:
-
-#### Option A: Without Semantic Reranker (Standard Features)
-
-**PowerShell (Windows):**
 ```powershell
-streamlit run src/app/cosmos-app.py --server.port 8501
+. ./.local/azd-env.ps1
+$py = if ($IsWindows) { './.venv/Scripts/python.exe' } else { './.venv/bin/python' }
+& $py -m pytest -q tests/unit tests/ui
+$env:RUN_LIVE_TESTS = '1'
+& $py -m pytest -q tests/live/test_original_movies.py
+Remove-Item Env:RUN_LIVE_TESTS
 ```
 
-**Bash (Linux/macOS):**
-```bash
-streamlit run src/app/cosmos-app.py --server.port 8501
-```
+The live matrix uses the actual embedder, both indexes, all modes and rerank
+toggles. It is not a browser/UI test. Allow index propagation before checking.
+The [advanced manual guide](README.manual.md) retains synthetic offline and
+optional integration fixtures, existing-resource setup and browser checks.
 
-#### Option B: With Semantic Reranker (Private Preview)
+For an actual browser matrix, leave the launcher running and use another terminal:
 
-> **⚠️ PRIVATE PREVIEW**: The Azure Cosmos DB Semantic Reranker is currently in private preview. To enable this feature, please reach out to the Azure Cosmos DB team for access and to obtain your reranker endpoint.
-
-**PowerShell (Windows):**
 ```powershell
-$env:AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT="https://your-reranker-endpoint.dbinference.azure.com"; streamlit run src/app/cosmos-app.py --server.port 8501
+& $py -m pip install -r requirements-browser.txt
+& $py -m playwright install chromium
+$env:RUN_LIVE_TESTS = '1'
+& $py scripts/verify_browser.py
+Remove-Item Env:RUN_LIVE_TESTS
 ```
 
-**Bash (Linux/macOS):**
-```bash
-export AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT="https://your-reranker-endpoint.dbinference.azure.com"
-streamlit run src/app/cosmos-app.py --server.port 8501
-```
-
-> **💡 Note**: Replace `https://your-reranker-endpoint.dbinference.azure.com` with your actual semantic reranker endpoint URL provided by the Azure Cosmos DB team.
-
-## 🎯 Using the Semantic Reranker (Private Preview)
-
-> **⚠️ PRIVATE PREVIEW**: The Azure Cosmos DB Semantic Reranker is currently in private preview. Contact the Azure Cosmos DB team to request access and obtain your reranker endpoint.
-
-The application includes Azure Cosmos DB's built-in semantic reranker for improved search relevance:
-
-### Features:
-- **Built-in Integration**: Uses Azure Cosmos DB SDK `semantic_rerank()` method
-- **Smart Ranking**: Reorders search results based on semantic similarity to your query
-- **UI Toggle**: Enable/disable reranking with the checkbox in the sidebar
-- **Metadata Preservation**: Maintains all original result data (IDs, titles, scores)
-- **Seamless Authentication**: Uses the same DefaultAzureCredential as Cosmos DB
-
-### How to Use:
-1. **Ensure you have access**: Contact the Azure Cosmos DB team for private preview access
-2. **Get your endpoint**: Obtain your semantic reranker inference endpoint URL
-3. **Start the app**: Use Option B from the "Run the Application" section above
-4. **Check the "Use Semantic Reranker" checkbox** in the sidebar
-
-### How to Use:
-1. **Start the application** following the instructions above
-2. **Check the "Use Semantic Reranker" checkbox** in the sidebar
-3. **Perform any search** (vector, text, or hybrid)
-4. **Compare results** with and without reranking enabled
-5. **View reranking status** in the results display
-
-### Requirements:
-- **Authentication**: Uses your existing Cosmos DB credentials (DefaultAzureCredential)
-- **Azure Cosmos DB**: Account must support semantic reranking functionality
-
-### Benefits:
-- **Built-in SDK Integration**: No external API calls required
-- **Consistent Authentication**: Uses your existing Cosmos DB credentials
-- **Automatic Fallback**: App continues working even if reranking fails
-
-## 📁 Project Structure
-
-```
-CosmosDB-NoSQL_SemanticSearchDemo/
-├── src/
-│   ├── app/
-│   │   ├── cosmos-app.py          # Main Streamlit application
-│   │   ├── requirements.txt      # Python dependencies
-│   │   ├── .env.template         # Environment variable template
-│   │   ├── .env                  # Your credentials (not in git)
-│   │   └── venv/                 # Local virtual environment (optional)
-│   └── data/
-│       ├── data-loader.py        # Data ingestion script
-│       └── drop-containers.py    # Container cleanup utility
-├── venv/                         # Project virtual environment
-├── README.md
-└── .gitignore
-```
-
-## 🔧 Advanced Configuration
-
-### Environment Variables Reference:
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `COSMOS_URI` | Azure Cosmos DB endpoint | ✅ |
-| `COSMOS_DB_DATABASE` | Azure Cosmos DB database name | ✅ |
-| `AZURE_OPENAI_API_KEY` | Azure OpenAI API key | ✅ |
-| `OPENAI_ENDPOINT` | Azure OpenAI endpoint | ✅ |
-
-*✅ = Required*
-
-**Note**: Semantic reranking uses the built-in Cosmos DB SDK with your existing authentication credentials.
-
-### Authentication:
-
-**Cosmos DB & Semantic Reranker Authentication:**
-- **Local Development**: Uses Azure CLI authentication (`az login`)
-- **Azure Deployment**: Uses Managed Identity authentication automatically
-- **DefaultAzureCredential**: Handles authentication flow seamlessly
-- **Required Role**: "Cosmos DB Built-in Data Contributor" on your Cosmos DB account
-
-## 🚀 Deploy to Azure with VS Code
-
-### Prerequisites:
-- Azure subscription with App Service capabilities
-- VS Code with Azure App Service extension
-
-### Steps:
-
-1. **Install the Azure App Service extension**:
-   - Open Extensions view (Ctrl+Shift+X)
-   - Search for "Azure App Service" and install
-
-2. **Create Azure Web App**:
-   - Create [Azure Web App](https://learn.microsoft.com/azure/app-service/overview) 
-   - Use Linux service plan (B1 SKU or higher)
-   - Select Python 3.10+ runtime
-
-3. **Configure App Service**:
-   - Go to Configuration → General Settings
-   - Set **Startup Command**:
-     ```shell
-     python -m pip install -r src/app/requirements.txt && python -m streamlit run src/app/cosmos-app.py --server.port 8000 --server.address 0.0.0.0
-     ```
-   - Add environment variables in Configuration → Application Settings
-
-4. **Deploy**:
-   - Press Ctrl+Shift+P
-   - Select "Azure App Service: Deploy to Web App"
-   - Select this project folder
-   - Choose your subscription and Web App
-   - Wait for deployment (up to 5 minutes)
-
-### 🔐 Production Security:
-- Use **Managed Identity** for Azure service authentication
-- Store sensitive values in **Azure Key Vault**
-- Configure **Application Settings** instead of .env files
-
-## 📊 Loading Data into Cosmos DB
-
-The app automatically creates containers with proper vector and text search policies. Use the data loader to populate with your data:
-
-### Prerequisites for Data Loading:
-1. **Environment Variables**: Ensure your `.env` file is configured with:
-   - `COSMOS_URI`: Your Cosmos DB endpoint
-   - `COSMOS_DB_DATABASE`: Target database name
-   - `AZURE_OPENAI_API_KEY`: Your Azure OpenAI API key
-   - `AZURE_OPENAI_ENDPOINT`: Your Azure OpenAI endpoint
-
-2. **Virtual Environment**: Make sure your virtual environment is activated:
-   ```sh
-   .\venv\Scripts\Activate.ps1  # Windows PowerShell
-   # or
-   source venv/bin/activate     # Linux/macOS
-   ```
-
-### Data Loader Arguments:
-- `--text_field_name`: Field containing text for embedding generation (required)
-- `--path_to_json_array`: Path to JSON file or URL containing data array (required)
-- `--database_name`: Cosmos DB database name (required)
-- `--concurrency`: Number of concurrent operations (default: 1, recommended: 10-20)
-- `--vector_field_name`: Field with pre-generated embeddings (optional)
-- `--re_embed`: Whether to regenerate embeddings (default: False)
-
-### Basic Usage:
-```sh
-cd src/data
-python data-loader.py \
-  --text_field_name "overview" \
-  --path_to_json_array "your-data.json" \
-  --database_name "searchdemo" \
-  --concurrency 20 \
-  --re_embed True
-```
-
-### Movie Dataset Example:
-```sh
-python src/data/data-loader.py \
-  --text_field_name "overview" \
-  --path_to_json_array "https://raw.githubusercontent.com/microsoft/AzureDataRetrievalAugmentedGenerationSamples/refs/heads/main/DataSet/Movies/MovieLens-4489-256D.json" \
-  --database_name "searchdemo" \
-  --concurrency 20 \
-  --vector_field_name "vector" \
-  --re_embed True
-```
-
-### Using Pre-existing Embeddings:
-If your data already contains vector embeddings:
-```sh
-python src/data/data-loader.py \
-  --text_field_name "text" \
-  --path_to_json_array "data-with-vectors.json" \
-  --database_name "searchdemo" \
-  --vector_field_name "embedding" \
-  --concurrency 10 \
-  --re_embed False
-```
-
-> **💡 Note**: Use the same database name that you configured in the `COSMOS_DB_DATABASE` environment variable.
-
-### 🗑️ Container Management:
-Use the cleanup utility to remove containers:
-```sh
-python src/data/drop-containers.py
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support & Troubleshooting
-
-### Common Issues:
-
-**❌ "Failed to connect to Cosmos DB"**
-- Verify `COSMOS_URI` in .env
-- Run `az login` to authenticate
-- Check that your account has "Cosmos DB Built-in Data Contributor" role
-- Check network connectivity to Azure
-
-**❌ "Semantic reranking failed"**
-- Ensure you're authenticated: `az login`
-- Verify your account has access to the Cosmos DB account
-- Check that the Cosmos DB account supports semantic reranking
-- App will continue working with original search results
-
-**❌ "No results found"**
-- Ensure data is loaded into Cosmos containers
-- Check container names match the app configuration
-
-### Performance Tips:
-- Use **DiskANN index** for large datasets (>100K documents)
-- Use **QFLAT index** for balanced performance and cost
-- Adjust **concurrency** in data loader based on Cosmos DB throughput
-
-### 📞 Need Help?
-- Check the [Issues](https://github.com/TheovanKraay/AzureDataRetrievalAugmentedGenerationSamples/issues) page
-- Review Azure Cosmos DB [documentation](https://docs.microsoft.com/azure/cosmos-db/)
-- Consult Azure OpenAI [best practices](https://docs.microsoft.com/azure/cognitive-services/openai/)
+The browser script tests all modes and toggles against the already-running app,
+prints each passing case and stores screenshots only under
+`.local/validation/movielens/`. It does not manage app processes.
+Add `--matrix advanced` to rerun only advanced cases, or `--matrix baseline`
+for only the original cases. The default runs both.

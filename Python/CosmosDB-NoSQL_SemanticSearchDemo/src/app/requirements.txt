@@ -1,13 +1,9 @@
-# Requirements for the application
+# Python 3.10+. Install in an isolated virtual environment.
+azure-data-ai==1.0.0
 azure-cosmos==4.14.0
-azure-identity~=1.19.0
-streamlit~=1.39.0
-sshtunnel
-openai==1.12.0
-pgvector~=0.3.5
-psycopg[binary,pool]~=3.2.3
-python-dotenv~=1.0.1
-numpy~=2.1.2
-pandas~=2.2.3
-httpx==0.24.1
-requests==2.32.5
+azure-identity>=1.19,<2
+streamlit>=1.39,<2
+openai>=1.55.3,<3
+python-dotenv>=1.0.1,<2
+pandas>=2.2,<3
+requests>=2.32.5,<3

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "openAiLocation": { "value": "${AZURE_OPENAI_LOCATION=uksouth}" },
+    "embeddingModel": { "value": "${EMBEDDING_MODEL=text-embedding-3-small}" },
+    "embeddingVersion": { "value": "${EMBEDDING_VERSION=1}" },
+    "embeddingDeployment": { "value": "${EMBEDDING_DEPLOYMENT=text-embedding-3-small}" },
+    "embeddingSku": { "value": "${EMBEDDING_SKU=GlobalStandard}" },
+    "embeddingCapacity": { "value": "${EMBEDDING_CAPACITY=30}" },
+    "createInference": {
+      "value": "${AZURE_CREATE_INFERENCE=false}"
+    },
+    "cosmosAccountName": {
+      "value": "${AZURE_COSMOS_ACCOUNT_NAME}"
+    },
+    "environmentName": {
+      "value": "${AZURE_ENV_NAME}"
+    },
+    "location": {
+      "value": "${AZURE_LOCATION}"
+    },
+    "principalId": {
+      "value": "${AZURE_PRINCIPAL_ID}"
+    }
+  }
+}
